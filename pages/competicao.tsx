@@ -199,15 +199,15 @@ export default function CompeticaoPage() {
               <div className="flex items-start gap-3 mb-4">
                 <MapPin size={20} className="text-gold-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-white font-bold">Ginásio Municipal de Esportes</h3>
-                  <p className="text-white/50 text-sm">Rua das Flores, 500 · Centro · Pato Branco – PR</p>
+                  <h3 className="text-white font-bold">Ginásio de Esportes do Grêmio Industrial Patobranquense</h3>
+                  <p className="text-white/50 text-sm">R. Araucária, 883 · Santa Terezinha · Pato Branco – PR</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 mb-4">
                 <Clock size={20} className="text-gold-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-white font-bold">Horários dos Jogos</h3>
-                  <p className="text-white/50 text-sm">Terças, Quintas e Sextas: 19h e 20h30<br />Sábados: 9h, 10h30, 14h e 15h30</p>
+                  <p className="text-white/50 text-sm">Sábados e Domingos: 08:00 às 19:00</p>
                 </div>
               </div>
               <Link href="/jogos" className="inline-flex items-center gap-1 text-gold-400 text-sm font-semibold hover:gap-2 transition-all">
