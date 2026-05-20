@@ -71,11 +71,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-white/50 text-sm">
                 <MapPin size={15} className="text-gold-500 flex-shrink-0 mt-0.5" />
-                <span>Rua XV de Novembro, 1234<br />Pato Branco – PR, 85501-000</span>
+                <span>R. Araucária, 883 - Santa Terezinha<br />Pato Branco – PR, 85501-160</span>
               </li>
               <li className="flex items-center gap-2 text-white/50 text-sm">
                 <Phone size={15} className="text-gold-500 flex-shrink-0" />
-                <a href="tel:+554699999999" className="hover:text-gold-400 transition-colors">(46) 9999-9999</a>
+                <a href="tel:+5546984136469" className="hover:text-gold-400 transition-colors">(46) 98413-6469</a>
               </li>
               <li className="flex items-center gap-2 text-white/50 text-sm">
                 <Mail size={15} className="text-gold-500 flex-shrink-0" />
@@ -85,7 +85,7 @@ export default function Footer() {
               </li>
             </ul>
             <a
-              href="https://wa.me/5546999999999"
+              href="https://wa.me/5546984136469"
               target="_blank"
               rel="noreferrer"
               className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600/20 text-green-400 text-sm font-medium hover:bg-green-600/30 transition-all border border-green-600/20"

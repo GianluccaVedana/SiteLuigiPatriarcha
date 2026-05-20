@@ -55,7 +55,7 @@ export default function HomePage() {
 
       {/* WhatsApp floating button */}
       <a
-        href="https://wa.me/5546999999999?text=Olá! Tenho interesse em me inscrever na 29ª Taça Luigi Patriarcha."
+        href="https://wa.me/5546984136469?text=Olá! Tenho interesse em me inscrever na 29ª Taça Luigi Patriarcha."
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-lg hover:bg-green-400 hover:scale-110 transition-all duration-200"
