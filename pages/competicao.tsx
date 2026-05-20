@@ -6,13 +6,11 @@ import Badge from '@/components/ui/Badge'
 import { Trophy, MapPin, Calendar, FileText, Award, Users, Clock, ChevronRight } from 'lucide-react'
 
 const categories = [
-  { name: 'Sub-11', age: 'Nascidos em 2014 ou após', teams: 8, description: 'Desenvolvimento inicial do futsal' },
-  { name: 'Sub-13', age: 'Nascidos em 2012 ou após', teams: 10, description: 'Aprimoramento técnico' },
-  { name: 'Sub-15', age: 'Nascidos em 2010 ou após', teams: 10, description: 'Formação tática' },
-  { name: 'Sub-17', age: 'Nascidos em 2008 ou após', teams: 8, description: 'Alta performance juvenil' },
-  { name: 'Sub-20', age: 'Nascidos em 2005 ou após', teams: 6, description: 'Transição para o adulto' },
-  { name: 'Adulto', age: 'Maiores de 17 anos', teams: 12, description: 'Competição de alto nível' },
-  { name: 'Feminino', age: 'Maiores de 15 anos', teams: 8, description: 'Categoria exclusiva feminina' },
+  { name: 'Sub-07', age: 'Nascidos em 2019 ou após', teams: 8, description: 'Iniciação ao futsal' },
+  { name: 'Sub-09', age: 'Nascidos em 2017 ou após', teams: 8, description: 'Desenvolvimento inicial' },
+  { name: 'Sub-11', age: 'Nascidos em 2015 ou após', teams: 8, description: 'Aprimoramento técnico' },
+  { name: 'Sub-13', age: 'Nascidos em 2013 ou após', teams: 10, description: 'Formação tática' },
+  { name: 'Sub-15', age: 'Nascidos em 2011 ou após', teams: 10, description: 'Alta performance juvenil' },
 ]
 
 const calendar = [
