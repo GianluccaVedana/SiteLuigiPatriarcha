@@ -1,10 +1,11 @@
-import { Users, Shield, Trophy, Zap } from 'lucide-react'
+import { Users, Shield, MapPin, Zap } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 
 const stats = [
   { icon: Users, value: '48', label: 'Equipes Inscritas', color: 'text-blue-400', bg: 'bg-blue-500/10' },
   { icon: Shield, value: '5', label: 'Categorias', color: 'text-gold-400', bg: 'bg-gold-500/10' },
   { icon: Zap, value: '120+', label: 'Jogos Programados', color: 'text-green-400', bg: 'bg-green-500/10' },
+  { icon: MapPin, value: '10+', label: 'Cidades Participantes', color: 'text-purple-400', bg: 'bg-purple-500/10' },
 ]
 
 export default function StatsSection() {
