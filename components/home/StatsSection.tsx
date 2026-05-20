@@ -3,9 +3,8 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 
 const stats = [
   { icon: Users, value: '48', label: 'Equipes Inscritas', color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  { icon: Shield, value: '7', label: 'Categorias', color: 'text-gold-400', bg: 'bg-gold-500/10' },
+  { icon: Shield, value: '5', label: 'Categorias', color: 'text-gold-400', bg: 'bg-gold-500/10' },
   { icon: Zap, value: '120+', label: 'Jogos Programados', color: 'text-green-400', bg: 'bg-green-500/10' },
-  { icon: Trophy, value: 'R$ 15k', label: 'Em Premiação', color: 'text-orange-400', bg: 'bg-orange-500/10' },
 ]
 
 export default function StatsSection() {
