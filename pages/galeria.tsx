@@ -9,10 +9,10 @@ const photos = Array.from({ length: 18 }, (_, i) => ({
   src: `https://picsum.photos/800/600?random=${i + 20}`,
   thumb: `https://picsum.photos/400/300?random=${i + 20}`,
   caption: `29ª Taça Luigi Patriarcha · Foto ${i + 1}`,
-  category: i % 3 === 0 ? 'Jogos' : i % 3 === 1 ? 'Premiação' : 'Bastidores',
+  category: i % 2 === 0 ? 'Jogos' : 'Premiação',
 }))
 
-const categories = ['Todas', 'Jogos', 'Premiação', 'Bastidores']
+const categories = ['Todas', 'Jogos', 'Premiação']
 
 export default function GaleriaPage() {
   const [cat, setCat] = useState('Todas')
