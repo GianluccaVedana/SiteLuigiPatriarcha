@@ -15,14 +15,6 @@ const categories = [
   { name: 'Feminino', age: 'Maiores de 15 anos', teams: 8, description: 'Categoria exclusiva feminina' },
 ]
 
-const prizes = [
-  { place: '1º Lugar', value: 'R$ 8.000', extras: 'Troféu + Medalhas + Bola Oficial', color: 'gold' },
-  { place: '2º Lugar', value: 'R$ 4.000', extras: 'Troféu + Medalhas', color: 'silver' },
-  { place: '3º Lugar', value: 'R$ 2.000', extras: 'Troféu + Medalhas', color: 'bronze' },
-  { place: 'Artilheiro', value: 'Prêmio Individual', extras: 'Troféu especial', color: 'blue' },
-  { place: 'Melhor Goleiro', value: 'Prêmio Individual', extras: 'Troféu especial', color: 'blue' },
-]
-
 const calendar = [
   { date: '30 Mai', event: 'Encerramento das inscrições', status: 'done' },
   { date: '05 Jun', event: 'Divulgação dos grupos e tabela', status: 'done' },
@@ -158,30 +150,6 @@ export default function CompeticaoPage() {
                   </div>
                   <h3 className="font-bold text-white mb-2">{phase}</h3>
                   <p className="text-white/50 text-sm leading-relaxed">{desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Premiação */}
-      <section id="premiacao" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <AnimatedSection className="text-center mb-12">
-            <div className="section-line mx-auto mb-3" />
-            <h2 className="text-3xl font-black text-white">Premiação <span className="gold-text">Categoria Adulto</span></h2>
-          </AnimatedSection>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 max-w-5xl mx-auto">
-            {prizes.map((prize, i) => (
-              <AnimatedSection key={prize.place} delay={i * 80}>
-                <div className={`glass-card rounded-2xl p-5 text-center border ${prize.color === 'gold' ? 'border-gold-500/40 gold-glow' : prize.color === 'silver' ? 'border-slate-400/20' : 'border-orange-500/20'}`}>
-                  <div className={`text-2xl mb-2 ${prize.color === 'gold' ? '🥇' : prize.color === 'silver' ? '🥈' : prize.color === 'bronze' ? '🥉' : '🏆'}`}>
-                    {prize.color === 'gold' ? '🥇' : prize.color === 'silver' ? '🥈' : prize.color === 'bronze' ? '🥉' : '🏆'}
-                  </div>
-                  <div className="font-bold text-white text-sm mb-1">{prize.place}</div>
-                  <div className={`font-black text-xl mb-2 ${prize.color === 'gold' ? 'gold-text' : 'text-white'}`}>{prize.value}</div>
-                  <p className="text-white/40 text-xs">{prize.extras}</p>
                 </div>
               </AnimatedSection>
             ))}
