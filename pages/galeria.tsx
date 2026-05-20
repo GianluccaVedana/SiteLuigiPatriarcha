@@ -4,13 +4,16 @@ import Layout from '@/components/layout/Layout'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { X, ZoomIn } from 'lucide-react'
 
-const photos = Array.from({ length: 18 }, (_, i) => ({
-  id: i + 1,
-  src: `https://picsum.photos/800/600?random=${i + 20}`,
-  thumb: `https://picsum.photos/400/300?random=${i + 20}`,
-  caption: `29ª Taça Luigi Patriarcha · Foto ${i + 1}`,
-  category: i % 2 === 0 ? 'Jogos' : 'Premiação',
-}))
+const photos = [
+  { id: 1,  src: 'https://images.unsplash.com/photo-1587384474964-3a06ce1ce699?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1587384474964-3a06ce1ce699?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Jogada', category: 'Jogos' },
+  { id: 2,  src: 'https://images.unsplash.com/photo-1521217078329-f8fc1becab68?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1521217078329-f8fc1becab68?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Disputa de bola', category: 'Jogos' },
+  { id: 3,  src: 'https://images.unsplash.com/photo-1509077613385-f89402467146?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1509077613385-f89402467146?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Gol', category: 'Jogos' },
+  { id: 4,  src: 'https://images.unsplash.com/photo-1598026878267-1f22ae804eac?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1598026878267-1f22ae804eac?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Partida', category: 'Jogos' },
+  { id: 5,  src: 'https://images.unsplash.com/photo-1622862259519-f6aab1c6168a?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1622862259519-f6aab1c6168a?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Lance', category: 'Jogos' },
+  { id: 6,  src: 'https://images.unsplash.com/photo-1630420598913-44208d36f9af?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1630420598913-44208d36f9af?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Cerimônia', category: 'Premiação' },
+  { id: 7,  src: 'https://images.unsplash.com/photo-1630420598771-dd52ab08c8cb?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1630420598771-dd52ab08c8cb?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Troféu', category: 'Premiação' },
+  { id: 8,  src: 'https://images.unsplash.com/photo-1695950695168-f4038b55a9ca?w=800&h=600&fit=crop&q=80', thumb: 'https://images.unsplash.com/photo-1695950695168-f4038b55a9ca?w=400&h=300&fit=crop&q=80', caption: '29ª Taça Luigi Patriarcha · Campeões', category: 'Premiação' },
+]
 
 const categories = ['Todas', 'Jogos', 'Premiação']
 

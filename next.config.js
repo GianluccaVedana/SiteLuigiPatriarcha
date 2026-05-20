@@ -6,7 +6,7 @@ const nextConfig = {
     newNextLinkBehavior: true,
   },
   images: {
-    domains: ['via.placeholder.com', 'picsum.photos'],
+    domains: ['via.placeholder.com', 'picsum.photos', 'images.unsplash.com'],
   },
 }
 
