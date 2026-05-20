@@ -72,7 +72,7 @@ export default function InscricaoPage() {
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <AnimatedSection>
             <h1 className="text-4xl md:text-5xl font-black text-white mb-2">Inscrição de <span className="gold-text">Equipe</span></h1>
-            <p className="text-white/40 text-sm">29ª Taça Luigi Patriarcha de Futsal · 2025</p>
+            <p className="text-white/40 text-sm">29ª Taça Luigi Patriarcha de Futsal · 2026</p>
           </AnimatedSection>
         </div>
       </div>

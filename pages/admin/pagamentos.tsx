@@ -24,7 +24,7 @@ export default function AdminPagamentos() {
   const [payments, setPayments] = useState(mockTeams.map(t => ({
     ...t,
     amount: 250,
-    dueDate: '2025-06-01',
+    dueDate: '2026-06-01',
     method: t.paymentStatus === 'paid' ? 'pix' : undefined,
   })))
   const [sidebarOpen, setSidebarOpen] = useState(false)

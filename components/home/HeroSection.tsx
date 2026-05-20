@@ -73,7 +73,7 @@ export default function HeroSection() {
         {/* Edition badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-gold-500/30 text-gold-400 text-xs font-semibold uppercase tracking-widest mb-6 animate-fade-in">
           <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
-          29ª Edição · 2025
+          29ª Edição · 2026
         </div>
 
         {/* Heading */}
@@ -87,7 +87,7 @@ export default function HeroSection() {
           A tradição entra em quadra mais uma vez
         </p>
         <p className="text-white/40 text-sm md:text-base mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Grêmio Industrial Patobranquense · Pato Branco – PR · Julho de 2025
+          Grêmio Industrial Patobranquense · Pato Branco – PR · Julho de 2026
         </p>
 
         {/* CTA Buttons */}

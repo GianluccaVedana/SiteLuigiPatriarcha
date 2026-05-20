@@ -99,7 +99,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-gold-500/10 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-white/30 text-xs">
-            © 2025 29ª Taça Luigi Patriarcha de Futsal · Grêmio Industrial Patobranquense. Todos os direitos reservados.
+            © 2026 29ª Taça Luigi Patriarcha de Futsal · Grêmio Industrial Patobranquense. Todos os direitos reservados.
           </p>
           <div className="flex gap-4 text-white/30 text-xs">
             <Link href="/privacidade" className="hover:text-gold-400 transition-colors">Privacidade</Link>

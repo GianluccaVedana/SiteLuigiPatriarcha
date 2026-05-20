@@ -38,7 +38,7 @@ export default function CompeticaoPage() {
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(ellipse at 30% 50%, rgba(26,58,107,0.4) 0%, transparent 70%)' }} />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <AnimatedSection>
-            <Badge variant="gold" size="md" className="mb-4">29ª Edição · 2025</Badge>
+            <Badge variant="gold" size="md" className="mb-4">29ª Edição · 2026</Badge>
             <h1 className="text-5xl md:text-6xl font-black text-white mb-4">A <span className="gold-text">Competição</span></h1>
             <p className="text-white/50 text-lg max-w-2xl mx-auto">
               Conheça tudo sobre a mais tradicional competição de futsal do Sudoeste do Paraná.
@@ -110,7 +110,7 @@ export default function CompeticaoPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <AnimatedSection className="text-center mb-12">
             <div className="section-line mx-auto mb-3" />
-            <h2 className="text-3xl font-black text-white">Categorias <span className="gold-text">2025</span></h2>
+            <h2 className="text-3xl font-black text-white">Categorias <span className="gold-text">2026</span></h2>
           </AnimatedSection>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {categories.map((cat, i) => (
@@ -162,7 +162,7 @@ export default function CompeticaoPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <AnimatedSection className="text-center mb-12">
             <div className="section-line mx-auto mb-3" />
-            <h2 className="text-3xl font-black text-white">Calendário <span className="gold-text">2025</span></h2>
+            <h2 className="text-3xl font-black text-white">Calendário <span className="gold-text">2026</span></h2>
           </AnimatedSection>
           <div className="relative">
             <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gold-500/20" />

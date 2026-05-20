@@ -4,69 +4,69 @@ export const mockTeams: Team[] = [
   {
     id: '1', name: 'Atlético Futsal', city: 'Pato Branco', category: 'adulto',
     responsible: 'Carlos Silva', phone: '(46) 99999-0001', email: 'atletico@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-01',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-01',
   },
   {
     id: '2', name: 'Grêmio Esportivo', city: 'Francisco Beltrão', category: 'adulto',
     responsible: 'Ana Costa', phone: '(46) 99999-0002', email: 'gremio@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-02',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-02',
   },
   {
     id: '3', name: 'FC União', city: 'Dois Vizinhos', category: 'adulto',
     responsible: 'Paulo Mendes', phone: '(46) 99999-0003', email: 'fcuniao@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-03',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-03',
   },
   {
     id: '4', name: 'Sport Club Sudoeste', city: 'Clevelândia', category: 'adulto',
     responsible: 'Roberto Lima', phone: '(46) 99999-0004', email: 'sport@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-04',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-04',
   },
   {
     id: '5', name: 'Real Futsal', city: 'Coronel Vivida', category: 'adulto',
     responsible: 'Marcos Alves', phone: '(46) 99999-0005', email: 'real@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-05',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-05',
   },
   {
     id: '6', name: 'Independente FC', city: 'Chopinzinho', category: 'adulto',
     responsible: 'Fernanda Rocha', phone: '(46) 99999-0006', email: 'indep@email.com',
-    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2025-03-06',
+    status: 'approved', paymentStatus: 'paid', players: [], createdAt: '2026-03-06',
   },
 ]
 
 export const mockMatches: Match[] = [
   {
     id: '1', homeTeam: mockTeams[0], awayTeam: mockTeams[1],
-    homeScore: 3, awayScore: 1, date: '2025-06-10', time: '19:00',
+    homeScore: 3, awayScore: 1, date: '2026-06-10', time: '19:00',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'A', referee: 'João Ferreira', status: 'finished',
   },
   {
     id: '2', homeTeam: mockTeams[2], awayTeam: mockTeams[3],
-    homeScore: 2, awayScore: 2, date: '2025-06-10', time: '20:30',
+    homeScore: 2, awayScore: 2, date: '2026-06-10', time: '20:30',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'B', referee: 'Maria Santos', status: 'finished',
   },
   {
     id: '3', homeTeam: mockTeams[4], awayTeam: mockTeams[5],
-    date: '2025-06-17', time: '19:00',
+    date: '2026-06-17', time: '19:00',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'A', referee: 'Pedro Oliveira', status: 'scheduled',
   },
   {
     id: '4', homeTeam: mockTeams[0], awayTeam: mockTeams[2],
-    date: '2025-06-17', time: '20:30',
+    date: '2026-06-17', time: '20:30',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'B', referee: 'Carlos Souza', status: 'scheduled',
   },
   {
     id: '5', homeTeam: mockTeams[1], awayTeam: mockTeams[4],
-    date: '2025-06-24', time: '19:00',
+    date: '2026-06-24', time: '19:00',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'A', status: 'scheduled',
   },
   {
     id: '6', homeTeam: mockTeams[3], awayTeam: mockTeams[5],
-    date: '2025-06-24', time: '20:30',
+    date: '2026-06-24', time: '20:30',
     venue: 'Ginásio Municipal de Pato Branco', category: 'adulto',
     phase: 'grupo', group: 'B', status: 'scheduled',
   },
@@ -93,28 +93,28 @@ export const mockScorers: Scorer[] = [
 export const mockNews: News[] = [
   {
     id: '1', slug: 'abertura-29a-taca', author: 'Redação',
-    title: 'Abertura oficial da 29ª Taça Luigi Patriarcha', publishedAt: '2025-05-15',
+    title: 'Abertura oficial da 29ª Taça Luigi Patriarcha', publishedAt: '2026-05-15',
     excerpt: 'A 29ª edição da Taça Luigi Patriarcha de Futsal foi oficialmente aberta com grande festa no Ginásio Municipal.',
     content: 'A 29ª edição da tradicional Taça Luigi Patriarcha de Futsal foi oficialmente aberta...',
     image: 'https://picsum.photos/800/400?random=1', category: 'noticias',
   },
   {
     id: '2', slug: 'inscricoes-abertas', author: 'Redação',
-    title: 'Inscrições abertas para todas as categorias', publishedAt: '2025-05-10',
+    title: 'Inscrições abertas para todas as categorias', publishedAt: '2026-05-10',
     excerpt: 'As inscrições para a 29ª Taça Luigi Patriarcha estão abertas. Equipes podem se inscrever até o dia 30 de maio.',
     content: 'As inscrições para todas as categorias já estão abertas...',
     image: 'https://picsum.photos/800/400?random=2', category: 'comunicados',
   },
   {
     id: '3', slug: 'atletico-vence-gremio', author: 'Redação',
-    title: 'Atlético vence Grêmio por 3 a 1 na rodada de abertura', publishedAt: '2025-06-10',
+    title: 'Atlético vence Grêmio por 3 a 1 na rodada de abertura', publishedAt: '2026-06-10',
     excerpt: 'Em partida emocionante, o Atlético Futsal superou o Grêmio Esportivo por 3 a 1 na estreia do Grupo A.',
     content: 'Em duelo equilibrado e muito disputado...',
     image: 'https://picsum.photos/800/400?random=3', category: 'resultados',
   },
   {
     id: '4', slug: 'regulamento-publicado', author: 'Comissão Organizadora',
-    title: 'Regulamento oficial da 29ª edição publicado', publishedAt: '2025-04-20',
+    title: 'Regulamento oficial da 29ª edição publicado', publishedAt: '2026-04-20',
     excerpt: 'A comissão organizadora publicou o regulamento completo da 29ª Taça Luigi Patriarcha. Confira as novidades desta edição.',
     content: 'O regulamento completo da 29ª edição está disponível para download...',
     image: 'https://picsum.photos/800/400?random=4', category: 'comunicados',
@@ -140,7 +140,7 @@ export const mockChampions: ChampionHistory[] = [
   { year: 2018, edition: 24, champion: 'Real Futsal', runnerUp: 'Grêmio Esportivo', category: 'adulto', topScorer: 'Rafael Costa', topScorerGoals: 8 },
 ]
 
-export const COMPETITION_DATE = new Date('2025-07-01T09:00:00')
+export const COMPETITION_DATE = new Date('2026-07-01T09:00:00')
 
 export const CATEGORIES = [
   { value: 'sub-11', label: 'Sub-11' },
