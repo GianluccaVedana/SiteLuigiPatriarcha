@@ -6,7 +6,6 @@ import StatsSection from '@/components/home/StatsSection'
 import NextGames from '@/components/home/NextGames'
 import ClassificationPreview from '@/components/home/ClassificationPreview'
 import TopScorers from '@/components/home/TopScorers'
-import NewsSection from '@/components/home/NewsSection'
 import GallerySection from '@/components/home/GallerySection'
 import SponsorsSection from '@/components/home/SponsorsSection'
 import PreviousChampions from '@/components/home/PreviousChampions'
@@ -25,7 +24,6 @@ export default function HomePage() {
       <NextGames />
       <ClassificationPreview />
       <TopScorers />
-      <NewsSection />
       <GallerySection />
       <PreviousChampions />
       <SponsorsSection />

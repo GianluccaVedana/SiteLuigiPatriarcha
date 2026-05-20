@@ -10,7 +10,6 @@ const navLinks = [
   { href: '/competicao', label: 'Competição' },
   { href: '/jogos', label: 'Jogos' },
   { href: '/classificacao', label: 'Classificação' },
-  { href: '/noticias', label: 'Notícias' },
   { href: '/galeria', label: 'Galeria' },
 ]
 

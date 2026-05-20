@@ -53,7 +53,6 @@ export default function Footer() {
               {[
                 { href: '/jogos', label: 'Jogos e Resultados' },
                 { href: '/classificacao', label: 'Classificação' },
-                { href: '/noticias', label: 'Notícias' },
                 { href: '/galeria', label: 'Galeria de Fotos' },
                 { href: '/inscricao', label: 'Fazer Inscrição' },
               ].map(link => (
