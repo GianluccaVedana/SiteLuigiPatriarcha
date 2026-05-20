@@ -10,7 +10,7 @@ export default function Logo({ size = 80, className = '', showText = false }: Lo
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <img
-        src="/logo.png"
+        src="https://drive.google.com/uc?export=view&id=1smcwnvrm2Q0HkkbrKrhWPMig7aZq7AGX"
         alt="29ª Taça Luigi Patriarcha"
         width={size}
         height={size}
