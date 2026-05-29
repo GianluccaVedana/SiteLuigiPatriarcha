@@ -133,7 +133,7 @@ export const mockChampions: ChampionHistory[] = [
   { year: 2018, edition: 24, champion: 'Coronel Vivida', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
 ]
 
-export const COMPETITION_DATE = new Date('2026-07-01T09:00:00')
+export const COMPETITION_DATE = new Date('2026-08-15T09:00:00')
 
 export const CATEGORIES = [
   { value: 'sub-11', label: 'Sub-11' },
