@@ -13,12 +13,9 @@ const categories = [
 ]
 
 const calendar = [
-  { date: '30 Mai', event: 'Encerramento das inscrições', status: 'done' },
-  { date: '05 Jun', event: 'Divulgação dos grupos e tabela', status: 'done' },
-  { date: '10 Jun', event: 'Início da fase de grupos', status: 'active' },
-  { date: '05 Jul', event: 'Fase eliminatória (oitavas e quartas)', status: 'pending' },
-  { date: '19 Jul', event: 'Semifinais', status: 'pending' },
-  { date: '26 Jul', event: 'Final e Cerimônia de Premiação', status: 'pending' },
+  { date: '01/06 a 03/08', event: 'Inscrições', status: 'active' },
+  { date: '10/08', event: 'Congresso Técnico', status: 'pending' },
+  { date: '15/08', event: 'Início da competição', status: 'pending' },
 ]
 
 export default function CompeticaoPage() {
