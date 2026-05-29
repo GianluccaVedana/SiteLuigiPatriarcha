@@ -2,9 +2,18 @@ import Link from 'next/link'
 import { Camera, ChevronRight } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 
-const photos = Array.from({ length: 6 }, (_, i) => ({
+const driveIds = [
+  '1FrFxHJhJ-L4cq9FCxnOKF-jeEAoV4P85',
+  '1ICUWIMbjRuD1HSRCeT5zAqMwsBeThc76',
+  '1LVKOhi1aPFX-xMwDffClkkqRzjdKTtZu',
+  '1XKF6RrnN0JwNKRrADb5iuiT_ixBJljMS',
+  '1YMDakb4eggcZzo3Jzhysjqw3OHF6KgZe',
+  '1nf9MQG30P5Aum4NMc14Y0Z0OELXzJANL',
+]
+
+const photos = driveIds.map((id, i) => ({
   id: i + 1,
-  src: `https://picsum.photos/600/400?random=${i + 10}`,
+  src: `https://drive.google.com/thumbnail?id=${id}&sz=w600`,
   alt: `Foto ${i + 1} da 29ª Taça Luigi Patriarcha`,
 }))
 
