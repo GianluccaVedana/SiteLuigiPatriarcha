@@ -122,14 +122,7 @@ export const mockNews: News[] = [
 ]
 
 export const mockSponsors: Sponsor[] = [
-  { id: '1', name: 'Prefeitura de Pato Branco', tier: 'master' },
-  { id: '2', name: 'Grêmio Industrial Patobranquense', tier: 'master' },
-  { id: '3', name: 'Banco do Brasil', tier: 'ouro' },
-  { id: '4', name: 'Cooperativa Lar', tier: 'ouro' },
-  { id: '5', name: 'Sebrae PR', tier: 'prata' },
-  { id: '6', name: 'Sicredi', tier: 'prata' },
-  { id: '7', name: 'Supermercado Central', tier: 'apoio' },
-  { id: '8', name: 'Auto Peças Sudoeste', tier: 'apoio' },
+  { id: '1', name: 'Grêmio Industrial Patobranquense', tier: 'master' },
 ]
 
 export const mockChampions: ChampionHistory[] = [
