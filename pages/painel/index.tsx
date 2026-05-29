@@ -6,7 +6,7 @@ import Layout from '@/components/layout/Layout'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
-import { User, Users, CreditCard, Bell, CheckCircle2, Clock, AlertCircle, FileText, Plus, LogOut } from 'lucide-react'
+import { User, Users, CreditCard, AlertCircle, CheckCircle2, Clock, LogOut, Plus } from 'lucide-react'
 
 export default function PainelPage() {
   const router = useRouter()
@@ -143,47 +143,6 @@ export default function PainelPage() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            {/* Quick actions */}
-            <AnimatedSection direction="right">
-              <div className="glass-card rounded-2xl p-5 border border-gold-500/15">
-                <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider mb-4">Ações Rápidas</h3>
-                <div className="space-y-2">
-                  {[
-                    { href: '/inscricao', icon: Plus, label: 'Nova inscrição', color: 'text-gold-400' },
-                    { href: '/jogos', icon: Clock, label: 'Ver jogos', color: 'text-blue-400' },
-                    { href: '/classificacao', icon: CheckCircle2, label: 'Classificação', color: 'text-green-400' },
-                    { href: '/competicao#regulamento', icon: FileText, label: 'Regulamento', color: 'text-white/60' },
-                  ].map(action => (
-                    <Link key={action.href} href={action.href} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all group">
-                      <action.icon size={16} className={action.color} />
-                      <span className="text-white/70 group-hover:text-white text-sm transition-colors">{action.label}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Notifications */}
-            <AnimatedSection direction="right" delay={100}>
-              <div className="glass-card rounded-2xl p-5 border border-gold-500/15">
-                <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Bell size={14} />Avisos
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    { msg: 'Inscrições abertas até 30/05', type: 'gold' as const },
-                    { msg: 'Regulamento atualizado disponível', type: 'blue' as const },
-                    { msg: 'Próximos jogos: 17/06', type: 'default' as const },
-                  ].map((n, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <Badge variant={n.type} size="sm" className="flex-shrink-0 mt-0.5">Aviso</Badge>
-                      <span className="text-white/60 text-xs leading-relaxed">{n.msg}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </AnimatedSection>
-
             {/* Profile */}
             <AnimatedSection direction="right" delay={200}>
               <div className="glass-card rounded-2xl p-5 border border-gold-500/15">
