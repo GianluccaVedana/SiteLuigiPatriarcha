@@ -133,11 +133,11 @@ export const mockSponsors: Sponsor[] = [
 ]
 
 export const mockChampions: ChampionHistory[] = [
-  { year: 2024, edition: 28, champion: 'Atlético Futsal', runnerUp: 'FC União', category: 'adulto', topScorer: 'Lucas Rodrigues', topScorerGoals: 12 },
-  { year: 2023, edition: 27, champion: 'Grêmio Esportivo', runnerUp: 'Real Futsal', category: 'adulto', topScorer: 'Gabriel Martins', topScorerGoals: 10 },
-  { year: 2022, edition: 26, champion: 'Sport Club Sudoeste', runnerUp: 'Atlético Futsal', category: 'adulto', topScorer: 'Felipe Souza', topScorerGoals: 9 },
-  { year: 2019, edition: 25, champion: 'Independente FC', runnerUp: 'FC União', category: 'adulto', topScorer: 'André Lima', topScorerGoals: 11 },
-  { year: 2018, edition: 24, champion: 'Real Futsal', runnerUp: 'Grêmio Esportivo', category: 'adulto', topScorer: 'Rafael Costa', topScorerGoals: 8 },
+  { year: 2024, edition: 28, champion: 'Grêmio Industrial PBCO', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
+  { year: 2023, edition: 27, champion: 'São Lourenço do Oeste', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
+  { year: 2022, edition: 26, champion: 'Colégio Vicentino', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
+  { year: 2019, edition: 25, champion: 'São Domingos', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
+  { year: 2018, edition: 24, champion: 'Coronel Vivida', runnerUp: '', category: 'adulto', topScorer: '', topScorerGoals: 0 },
 ]
 
 export const COMPETITION_DATE = new Date('2026-07-01T09:00:00')
