@@ -208,9 +208,6 @@ export default function CompeticaoPage() {
                   <p className="text-white/50 text-sm">Sábados e Domingos: 08:00 às 19:00</p>
                 </div>
               </div>
-              <Link href="/jogos" className="inline-flex items-center gap-1 text-gold-400 text-sm font-semibold hover:gap-2 transition-all">
-                Ver programação completa <ChevronRight size={14} />
-              </Link>
             </div>
           </AnimatedSection>
         </div>
