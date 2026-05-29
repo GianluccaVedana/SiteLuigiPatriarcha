@@ -77,8 +77,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-white/50 text-sm">
                 <Mail size={15} className="text-gold-500 flex-shrink-0" />
-                <a href="mailto:contato@luigipatriarcha.com.br" className="hover:text-gold-400 transition-colors">
-                  contato@luigipatriarcha.com.br
+                <a href="mailto:esporte@gremioindustrial.com.br" className="hover:text-gold-400 transition-colors">
+                  esporte@gremioindustrial.com.br
                 </a>
               </li>
             </ul>
