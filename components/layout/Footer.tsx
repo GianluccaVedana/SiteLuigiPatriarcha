@@ -51,8 +51,6 @@ export default function Footer() {
             <h4 className="text-gold-400 font-semibold text-sm uppercase tracking-wider mb-4">Navegação</h4>
             <ul className="space-y-2">
               {[
-                { href: '/jogos', label: 'Jogos e Resultados' },
-                { href: '/classificacao', label: 'Classificação' },
                 { href: '/galeria', label: 'Galeria de Fotos' },
                 { href: '/inscricao', label: 'Fazer Inscrição' },
               ].map(link => (

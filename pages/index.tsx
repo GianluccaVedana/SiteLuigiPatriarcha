@@ -3,9 +3,6 @@ import Link from 'next/link'
 import Layout from '@/components/layout/Layout'
 import HeroSection from '@/components/home/HeroSection'
 import StatsSection from '@/components/home/StatsSection'
-import NextGames from '@/components/home/NextGames'
-import ClassificationPreview from '@/components/home/ClassificationPreview'
-import TopScorers from '@/components/home/TopScorers'
 import GallerySection from '@/components/home/GallerySection'
 import SponsorsSection from '@/components/home/SponsorsSection'
 import PreviousChampions from '@/components/home/PreviousChampions'
@@ -21,9 +18,6 @@ export default function HomePage() {
 
       <HeroSection />
       <StatsSection />
-      <NextGames />
-      <ClassificationPreview />
-      <TopScorers />
       <GallerySection />
       <PreviousChampions />
       <SponsorsSection />
