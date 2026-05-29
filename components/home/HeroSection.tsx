@@ -87,7 +87,7 @@ export default function HeroSection() {
           A tradição entra em quadra mais uma vez
         </p>
         <p className="text-white/40 text-sm md:text-base mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Grêmio Industrial Patobranquense · Pato Branco – PR · Julho de 2026
+          Grêmio Industrial Patobranquense · Pato Branco – PR · 15/08 de 2026
         </p>
 
         {/* CTA Buttons */}
