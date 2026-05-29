@@ -56,13 +56,13 @@ export default function CompeticaoPage() {
               <div className="space-y-4 text-white/60 leading-relaxed">
                 <p>A Taça Luigi Patriarcha de Futsal é uma das competições mais tradicionais e respeitadas do Sudoeste do Paraná. Criada em 1996 pelo Grêmio Industrial Patobranquense, a competição homenageia Luigi Patriarcha, um dos maiores incentivadores do esporte na região.</p>
                 <p>Ao longo de 29 edições, o torneio revelou talentos que chegaram ao futebol profissional e contribuiu imensamente para o desenvolvimento do futsal na região, reunindo equipes de toda a mesorregião do Sudoeste paranaense.</p>
-                <p>Com mais de 500 equipes participantes ao longo de sua história e Centenas de atletas formados, a Taça Luigi Patriarcha é um patrimônio esportivo da comunidade patobranquense.</p>
+                <p>Com dezenas de equipes participantes ao longo de sua história e Centenas de atletas formados, a Taça Luigi Patriarcha é um patrimônio esportivo da comunidade patobranquense.</p>
               </div>
             </AnimatedSection>
             <AnimatedSection direction="right" className="grid grid-cols-2 gap-4">
               {[
                 { icon: Trophy, value: '29', label: 'Edições realizadas' },
-                { icon: Users, value: '500+', label: 'Equipes históricas' },
+                { icon: Users, value: 'Dezenas', label: 'Equipes históricas' },
                 { icon: Award, value: 'Centenas', label: 'Atletas formados' },
                 { icon: Calendar, value: '1996', label: 'Ano de fundação' },
               ].map(({ icon: Icon, value, label }) => (
