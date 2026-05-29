@@ -61,7 +61,7 @@ export default function GaleriaPage() {
             <X size={20} />
           </button>
           <div onClick={e => e.stopPropagation()} className="max-w-4xl w-full">
-            <img src={current.src} alt={current.caption} className="w-full rounded-2xl" />
+            <img src={current.src} alt={current.caption} className="w-full max-h-[80vh] object-contain rounded-2xl" />
             <p className="text-white/50 text-sm text-center mt-3">{current.caption}</p>
             <div className="flex justify-center gap-3 mt-4">
               <button onClick={() => setLightbox(l => l !== null && l > 0 ? l - 1 : photos.length - 1)} className="px-4 py-2 glass-card rounded-lg text-white/60 hover:text-white text-sm transition-all">← Anterior</button>
