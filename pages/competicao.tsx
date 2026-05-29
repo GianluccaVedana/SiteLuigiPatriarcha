@@ -137,8 +137,8 @@ export default function CompeticaoPage() {
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
               { phase: 'Fase de Grupos', icon: Users, desc: 'Equipes divididas em grupos. Todos jogam entre si. Os 2 primeiros de cada grupo avançam.', num: '1' },
-              { phase: 'Fase Eliminatória', icon: Trophy, desc: 'Confrontos mata-mata a partir das oitavas de final até as semifinais. Jogo único.', num: '2' },
-              { phase: 'Grande Final', icon: Award, desc: 'Final única no Ginásio Municipal, com cerimônia de premiação ao final da partida.', num: '3' },
+              { phase: 'Fase Eliminatória', icon: Trophy, desc: 'Confrontos mata-mata a partir das quartas de final até as semifinais. Jogo único.', num: '2' },
+              { phase: 'Grande Final', icon: Award, desc: 'Final única no Ginásio do Grêmio Industrial, com cerimônia de premiação ao final da partida.', num: '3' },
             ].map(({ phase, icon: Icon, desc, num }, i) => (
               <AnimatedSection key={phase} delay={i * 100}>
                 <div className="glass-card rounded-2xl p-6 text-center border border-gold-500/10 relative overflow-hidden">
