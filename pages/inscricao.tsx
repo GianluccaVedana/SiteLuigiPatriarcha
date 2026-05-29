@@ -7,9 +7,9 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { CheckCircle2, User, Users, CreditCard, ChevronRight, Plus, Trash2, Upload } from 'lucide-react'
+import { CheckCircle2, User, Users, ChevronRight, Plus, Trash2, Upload } from 'lucide-react'
 
-const STEPS = ['Responsável', 'Equipe', 'Atletas', 'Pagamento', 'Confirmação']
+const STEPS = ['Responsável', 'Equipe', 'Atletas', 'Confirmação']
 
 interface AtletaForm { name: string; number: string; position: string; birthDate: string }
 
@@ -22,7 +22,6 @@ export default function InscricaoPage() {
     responsavel: user?.name || '',
     cpf: '', phone: '', email: user?.email || '',
     teamName: '', city: '', state: 'PR', category: 'adulto', teamLogo: '',
-    paymentMethod: 'pix',
   })
   const [atletas, setAtletas] = useState<AtletaForm[]>([
     { name: '', number: '1', position: 'goleiro', birthDate: '' },
@@ -194,75 +193,21 @@ export default function InscricaoPage() {
               </div>
             )}
 
-            {/* Step 3: Pagamento */}
+            {/* Step 3: Confirmação */}
             {step === 3 && (
-              <div>
-                <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2"><CreditCard size={20} className="text-gold-400" />Forma de Pagamento</h2>
-                <div className="glass-card rounded-xl p-4 border border-gold-500/20 mb-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-white/70 text-sm">Taxa de inscrição</span>
-                    <span className="text-white font-bold">R$ 250,00</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/70 text-sm">Categoria</span>
-                    <span className="text-gold-400 font-semibold">{CATEGORIES.find(c => c.value === form.category)?.label}</span>
-                  </div>
-                  <div className="border-t border-gold-500/10 mt-3 pt-3 flex justify-between items-center">
-                    <span className="text-white font-bold">Total</span>
-                    <span className="text-gold-400 font-black text-xl">R$ 250,00</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {[
-                    { key: 'pix', label: 'PIX', desc: 'Pagamento instantâneo. Chave PIX: 00.000.000/0001-00', icon: '⚡' },
-                    { key: 'boleto', label: 'Boleto Bancário', desc: 'Vencimento em 3 dias úteis', icon: '📄' },
-                    { key: 'cartao', label: 'Cartão de Crédito', desc: 'Em até 3x sem juros', icon: '💳' },
-                  ].map(method => (
-                    <label key={method.key} className={`flex items-center gap-4 glass-card rounded-xl p-4 cursor-pointer border transition-all ${form.paymentMethod === method.key ? 'border-gold-500/40 bg-gold-500/5' : 'border-transparent hover:border-gold-500/15'}`}>
-                      <input type="radio" name="payment" value={method.key} checked={form.paymentMethod === method.key} onChange={e => set('paymentMethod', e.target.value)} className="hidden" />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${form.paymentMethod === method.key ? 'border-gold-400 bg-gold-400' : 'border-white/30'}`}>
-                        {form.paymentMethod === method.key && <div className="w-2 h-2 rounded-full bg-navy-900" />}
-                      </div>
-                      <span className="text-xl">{method.icon}</span>
-                      <div>
-                        <p className="text-white font-semibold text-sm">{method.label}</p>
-                        <p className="text-white/40 text-xs">{method.desc}</p>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-
-                {form.paymentMethod === 'pix' && (
-                  <div className="mt-4 p-4 glass-card rounded-xl border border-gold-500/20 text-center">
-                    <div className="w-32 h-32 bg-white rounded-xl mx-auto mb-3 flex items-center justify-center text-navy-900 text-xs">
-                      QR Code PIX
-                    </div>
-                    <p className="text-white/50 text-xs">Escaneie o QR Code ou copie o código PIX</p>
-                    <button className="mt-2 px-4 py-2 rounded-lg glass-card text-gold-400 text-xs font-semibold border border-gold-500/20 hover:bg-gold-500/10 transition-all">
-                      Copiar código PIX
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Step 4: Confirmação */}
-            {step === 4 && (
               <div className="text-center py-6">
                 <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
                   <CheckCircle2 size={40} className="text-green-400" />
                 </div>
                 <h2 className="text-2xl font-black text-white mb-3">Inscrição enviada!</h2>
                 <p className="text-white/50 mb-2">Sua inscrição foi recebida e está sendo processada.</p>
-                <p className="text-white/40 text-sm mb-8">Você receberá um e-mail de confirmação em <span className="text-gold-400">{form.email}</span> assim que o pagamento for confirmado.</p>
+                <p className="text-white/40 text-sm mb-8">Você receberá um e-mail de confirmação em <span className="text-gold-400">{form.email}</span>.</p>
 
                 <div className="glass-card rounded-xl p-5 text-left mb-6 space-y-2 border border-gold-500/15">
                   {[
                     { label: 'Equipe', value: form.teamName },
                     { label: 'Categoria', value: CATEGORIES.find(c => c.value === form.category)?.label },
                     { label: 'Atletas', value: `${atletas.length} jogadores cadastrados` },
-                    { label: 'Pagamento', value: form.paymentMethod.toUpperCase() },
                     { label: 'Status', value: 'Aguardando confirmação', gold: true },
                   ].map(row => (
                     <div key={row.label} className="flex justify-between text-sm">
