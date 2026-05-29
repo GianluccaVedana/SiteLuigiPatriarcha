@@ -15,7 +15,7 @@ const driveIds = [
 
 const photos = driveIds.map((id, i) => ({
   id: i + 1,
-  src: `https://drive.google.com/uc?export=view&id=${id}`,
+  src: `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
   thumb: `https://drive.google.com/thumbnail?id=${id}&sz=w600`,
   caption: `29ª Taça Luigi Patriarcha`,
 }))
