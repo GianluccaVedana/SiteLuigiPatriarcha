@@ -43,18 +43,6 @@ export default function LoginPage() {
             <Logo size={120} className="mb-8 animate-float" />
             <h1 className="text-4xl font-black text-white mb-3">Bem-vindo de volta!</h1>
             <p className="text-white/50 text-lg leading-relaxed max-w-sm">Acesse sua conta para gerenciar sua inscrição na 29ª Taça Luigi Patriarcha.</p>
-            <div className="mt-10 flex flex-col gap-3 w-full max-w-xs">
-              {[
-                { label: '48 equipes inscritas', color: 'text-gold-400' },
-                { label: '7 categorias disponíveis', color: 'text-blue-400' },
-                { label: 'Inscrições abertas até 30/05', color: 'text-green-400' },
-              ].map(item => (
-                <div key={item.label} className="glass-card rounded-xl px-4 py-3 flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full bg-current ${item.color} flex-shrink-0`} />
-                  <span className={`text-sm font-medium ${item.color}`}>{item.label}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
