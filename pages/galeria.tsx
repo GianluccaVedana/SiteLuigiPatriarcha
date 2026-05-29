@@ -35,7 +35,7 @@ export default function GaleriaPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <AnimatedSection>
             <h1 className="text-5xl font-black text-white mb-3">Galeria de <span className="gold-text">Fotos</span></h1>
-            <p className="text-white/40">Os melhores momentos da 29ª edição</p>
+            <p className="text-white/40">Os melhores momentos da competição</p>
           </AnimatedSection>
         </div>
       </div>
