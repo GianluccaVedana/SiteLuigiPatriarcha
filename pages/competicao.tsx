@@ -1,9 +1,8 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Layout from '@/components/layout/Layout'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
-import { Trophy, MapPin, Calendar, FileText, Award, Users, Clock, ChevronRight } from 'lucide-react'
+import { Trophy, MapPin, Calendar, FileText, Award, Users, Clock } from 'lucide-react'
 
 const categories = [
   { name: 'Sub-07', age: 'Nascidos em 2019 ou após', teams: 8, description: 'Iniciação ao futsal' },
@@ -57,14 +56,14 @@ export default function CompeticaoPage() {
               <div className="space-y-4 text-white/60 leading-relaxed">
                 <p>A Taça Luigi Patriarcha de Futsal é uma das competições mais tradicionais e respeitadas do Sudoeste do Paraná. Criada em 1996 pelo Grêmio Industrial Patobranquense, a competição homenageia Luigi Patriarcha, um dos maiores incentivadores do esporte na região.</p>
                 <p>Ao longo de 29 edições, o torneio revelou talentos que chegaram ao futebol profissional e contribuiu imensamente para o desenvolvimento do futsal na região, reunindo equipes de toda a mesorregião do Sudoeste paranaense.</p>
-                <p>Com mais de 500 equipes participantes ao longo de sua história e mais de 5.000 jogadores formados, a Taça Luigi Patriarcha é um patrimônio esportivo da comunidade patobranquense.</p>
+                <p>Com mais de 500 equipes participantes ao longo de sua história e Centenas de atletas formados, a Taça Luigi Patriarcha é um patrimônio esportivo da comunidade patobranquense.</p>
               </div>
             </AnimatedSection>
             <AnimatedSection direction="right" className="grid grid-cols-2 gap-4">
               {[
                 { icon: Trophy, value: '29', label: 'Edições realizadas' },
                 { icon: Users, value: '500+', label: 'Equipes históricas' },
-                { icon: Award, value: '5.000+', label: 'Atletas formados' },
+                { icon: Award, value: 'Centenas', label: 'Atletas formados' },
                 { icon: Calendar, value: '1996', label: 'Ano de fundação' },
               ].map(({ icon: Icon, value, label }) => (
                 <div key={label} className="glass-card rounded-2xl p-6 text-center border border-gold-500/10">
