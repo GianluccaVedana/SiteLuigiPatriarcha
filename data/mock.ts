@@ -136,11 +136,9 @@ export const mockChampions: ChampionHistory[] = [
 export const COMPETITION_DATE = new Date('2026-08-15T09:00:00')
 
 export const CATEGORIES = [
+  { value: 'sub-07', label: 'Sub-07' },
+  { value: 'sub-09', label: 'Sub-09' },
   { value: 'sub-11', label: 'Sub-11' },
   { value: 'sub-13', label: 'Sub-13' },
   { value: 'sub-15', label: 'Sub-15' },
-  { value: 'sub-17', label: 'Sub-17' },
-  { value: 'sub-20', label: 'Sub-20' },
-  { value: 'adulto', label: 'Adulto' },
-  { value: 'feminino', label: 'Feminino' },
 ]
