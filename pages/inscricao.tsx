@@ -239,7 +239,7 @@ export default function InscricaoPage() {
                 </div>
                 <h2 className="text-2xl font-black text-white mb-3">Inscrição enviada!</h2>
                 <p className="text-white/50 mb-2">Sua inscrição foi recebida e está sendo processada.</p>
-                <p className="text-white/40 text-sm mb-8">Você receberá um e-mail de confirmação em <span className="text-gold-400">{form.email}</span>.</p>
+                <p className="text-white/40 text-sm mb-8">Realize o pagamento das Taxas de inscrição que aparecerão em seu painel e em até 24 horas após o pagamento o status de sua inscrição será confirmado.</p>
 
                 <div className="glass-card rounded-xl p-5 text-left mb-6 space-y-2 border border-gold-500/15">
                   {[
