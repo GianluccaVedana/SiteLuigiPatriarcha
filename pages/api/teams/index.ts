@@ -34,8 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (const p of players) {
       await pool.query(
-        'INSERT INTO players (team_id, name, number, position, birth_date) VALUES ($1,$2,$3,$4,$5)',
-        [team.id, p.name, p.number || null, p.position || null, p.birthDate || null]
+        'INSERT INTO players (team_id, name, rg, birth_date) VALUES ($1,$2,$3,$4)',
+        [team.id, p.name, p.rg || null, p.birthDate || null]
       )
     }
 

@@ -23,12 +23,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     for (const p of players) {
       if (!p.name?.trim()) continue
       await pool.query(
-        'INSERT INTO players (team_id, name, number, position, birth_date) VALUES ($1,$2,$3,$4,$5)',
-        [id, p.name, p.number || null, p.position || null, p.birthDate || null]
+        'INSERT INTO players (team_id, name, rg, birth_date) VALUES ($1,$2,$3,$4)',
+        [id, p.name, p.rg || null, p.birthDate || null]
       )
     }
 
-    const updated = await pool.query('SELECT * FROM players WHERE team_id = $1 ORDER BY number', [id])
+    const updated = await pool.query('SELECT * FROM players WHERE team_id = $1 ORDER BY id', [id])
     return res.json(updated.rows)
   }
 

@@ -11,7 +11,7 @@ import { CheckCircle2, User, Users, ChevronRight, Plus, Trash2, Upload } from 'l
 
 const STEPS = ['Responsável', 'Equipe', 'Atletas', 'Confirmação']
 
-interface AtletaForm { name: string; number: string; position: string; birthDate: string }
+interface AtletaForm { name: string; rg: string; birthDate: string }
 
 export default function InscricaoPage() {
   const router = useRouter()
@@ -41,13 +41,13 @@ export default function InscricaoPage() {
     setUploading(false)
   }
   const [atletas, setAtletas] = useState<AtletaForm[]>([
-    { name: '', number: '1', position: 'goleiro', birthDate: '' },
-    { name: '', number: '2', position: 'fixo', birthDate: '' },
+    { name: '', rg: '', birthDate: '' },
+    { name: '', rg: '', birthDate: '' },
   ])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
   const setAtleta = (i: number, k: string, v: string) => setAtletas(a => a.map((at, idx) => idx === i ? { ...at, [k]: v } : at))
-  const addAtleta = () => setAtletas(a => [...a, { name: '', number: String(a.length + 1), position: 'ala', birthDate: '' }])
+  const addAtleta = () => setAtletas(a => [...a, { name: '', rg: '', birthDate: '' }])
   const removeAtleta = (i: number) => setAtletas(a => a.filter((_, idx) => idx !== i))
 
   const handleNext = async () => {
@@ -213,17 +213,12 @@ export default function InscricaoPage() {
                           </button>
                         )}
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <div className="col-span-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="sm:col-span-1">
                           <input value={at.name} onChange={e => setAtleta(i, 'name', e.target.value)} className="form-input text-sm" placeholder="Nome completo" />
                         </div>
-                        <input value={at.number} onChange={e => setAtleta(i, 'number', e.target.value)} className="form-input text-sm" placeholder="Nº" type="number" min="1" max="99" />
-                        <select value={at.position} onChange={e => setAtleta(i, 'position', e.target.value)} className="form-input text-sm">
-                          <option value="goleiro">Goleiro</option>
-                          <option value="fixo">Fixo</option>
-                          <option value="ala">Ala</option>
-                          <option value="pivo">Pivô</option>
-                        </select>
+                        <input value={at.rg} onChange={e => setAtleta(i, 'rg', e.target.value)} className="form-input text-sm" placeholder="RG" />
+                        <input value={at.birthDate} onChange={e => setAtleta(i, 'birthDate', e.target.value)} className="form-input text-sm" type="date" />
                       </div>
                     </div>
                   ))}

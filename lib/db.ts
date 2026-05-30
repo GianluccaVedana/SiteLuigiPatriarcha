@@ -40,8 +40,7 @@ export async function initDB() {
       id SERIAL PRIMARY KEY,
       team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
       name VARCHAR(200) NOT NULL,
-      number INTEGER,
-      position VARCHAR(50),
+      rg VARCHAR(50),
       birth_date VARCHAR(20),
       created_at TIMESTAMPTZ DEFAULT NOW()
     );

@@ -9,7 +9,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
 import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check } from 'lucide-react'
 
-interface Player { name: string; number: string; position: string }
+interface Player { name: string; rg: string; birthDate: string }
 
 interface TeamData {
   id: number
@@ -21,13 +21,10 @@ interface TeamData {
   phone: string
   email: string
   status: 'pending' | 'approved' | 'rejected'
-  players: { name: string; number: number; position: string }[]
+  players: { name: string; rg: string; birth_date: string }[]
   created_at: string
 }
 
-const POSITION_LABELS: Record<string, string> = {
-  goleiro: 'Goleiro', fixo: 'Fixo', ala: 'Ala', pivo: 'Pivô',
-}
 
 const statusConfig = {
   pending:  { label: 'Aguardando aprovação', variant: 'orange' as const, icon: Clock },
@@ -46,14 +43,14 @@ export default function PainelPage() {
 
   const openEdit = (team: TeamData) => {
     setEditingTeam(team)
-    setEditPlayers(team.players.map(p => ({ name: p.name, number: String(p.number ?? ''), position: p.position })))
+    setEditPlayers(team.players.map(p => ({ name: p.name, rg: p.rg || '', birthDate: p.birth_date || '' })))
   }
 
   const setPlayer = (i: number, k: keyof Player, v: string) =>
     setEditPlayers(ps => ps.map((p, idx) => idx === i ? { ...p, [k]: v } : p))
 
   const addPlayer = () =>
-    setEditPlayers(ps => [...ps, { name: '', number: String(ps.length + 1), position: 'ala' }])
+    setEditPlayers(ps => [...ps, { name: '', rg: '', birthDate: '' }])
 
   const removePlayer = (i: number) =>
     setEditPlayers(ps => ps.filter((_, idx) => idx !== i))
@@ -211,11 +208,11 @@ export default function PainelPage() {
                         <div className="space-y-1.5">
                           {team.players.map((p, j) => (
                             <div key={j} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-navy-800/50 border border-gold-500/5">
-                              <div className="flex items-center gap-2">
-                                <span className="w-6 h-6 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 text-xs font-bold">{p.number}</span>
-                                <span className="text-white text-sm">{p.name || <span className="text-white/30 italic">Sem nome</span>}</span>
+                              <span className="text-white text-sm">{p.name || <span className="text-white/30 italic">Sem nome</span>}</span>
+                              <div className="flex gap-3 text-white/40 text-xs">
+                                {p.rg && <span>RG: {p.rg}</span>}
+                                {p.birth_date && <span>{new Date(p.birth_date).toLocaleDateString('pt-BR')}</span>}
                               </div>
-                              <span className="text-white/40 text-xs">{POSITION_LABELS[p.position] ?? p.position}</span>
                             </div>
                           ))}
                         </div>
@@ -264,8 +261,8 @@ export default function PainelPage() {
                       </button>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div className="sm:col-span-1">
                       <input
                         value={p.name}
                         onChange={e => setPlayer(i, 'name', e.target.value)}
@@ -274,24 +271,17 @@ export default function PainelPage() {
                       />
                     </div>
                     <input
-                      value={p.number}
-                      onChange={e => setPlayer(i, 'number', e.target.value)}
+                      value={p.rg}
+                      onChange={e => setPlayer(i, 'rg', e.target.value)}
                       className="form-input text-sm"
-                      placeholder="Nº"
-                      type="number"
-                      min="1"
-                      max="99"
+                      placeholder="RG"
                     />
-                    <select
-                      value={p.position}
-                      onChange={e => setPlayer(i, 'position', e.target.value)}
+                    <input
+                      value={p.birthDate}
+                      onChange={e => setPlayer(i, 'birthDate', e.target.value)}
                       className="form-input text-sm"
-                    >
-                      <option value="goleiro">Goleiro</option>
-                      <option value="fixo">Fixo</option>
-                      <option value="ala">Ala</option>
-                      <option value="pivo">Pivô</option>
-                    </select>
+                      type="date"
+                    />
                   </div>
                 </div>
               ))}
