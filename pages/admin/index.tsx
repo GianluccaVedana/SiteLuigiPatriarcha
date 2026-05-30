@@ -187,9 +187,79 @@ export default function AdminDashboard() {
     </div>
   }
 
+  const totalByStatus = {
+    total: teams.length,
+    pending:  teams.filter(t => t.status === 'pending').length,
+    approved: teams.filter(t => t.status === 'approved').length,
+    rejected: teams.filter(t => t.status === 'rejected').length,
+  }
+
+  const byCategory = CATEGORIES.map(cat => ({
+    label: cat.label,
+    value: cat.value,
+    total:    teams.filter(t => t.category === cat.value).length,
+    pending:  teams.filter(t => t.category === cat.value && t.status === 'pending').length,
+    approved: teams.filter(t => t.category === cat.value && t.status === 'approved').length,
+    rejected: teams.filter(t => t.category === cat.value && t.status === 'rejected').length,
+  })).filter(c => c.total > 0)
+
   return (
-    <AdminLayout title="Equipes Inscritas">
+    <AdminLayout title="Dashboard">
       <Head><title>Admin · 29ª Taça Luigi Patriarcha</title></Head>
+
+      {/* Cards resumo */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {[
+          { label: 'Total Inscritas', value: totalByStatus.total, color: 'text-white', bg: 'bg-white/5', border: 'border-white/10' },
+          { label: 'Pendentes',       value: totalByStatus.pending,  color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
+          { label: 'Aprovadas',       value: totalByStatus.approved, color: 'text-green-400',  bg: 'bg-green-500/10',  border: 'border-green-500/20'  },
+          { label: 'Rejeitadas',      value: totalByStatus.rejected, color: 'text-red-400',    bg: 'bg-red-500/10',    border: 'border-red-500/20'    },
+        ].map(s => (
+          <div key={s.label} className={`glass-card rounded-2xl p-5 border ${s.border}`}>
+            <div className={`text-3xl font-black mb-1 ${s.color}`}>{s.value}</div>
+            <div className="text-white/40 text-sm">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Breakdown por categoria */}
+      {byCategory.length > 0 && (
+        <div className="glass-card rounded-2xl border border-gold-500/10 overflow-hidden mb-6">
+          <div className="px-5 py-4 border-b border-gold-500/10">
+            <h2 className="font-bold text-white text-sm">Equipes por Categoria</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gold-500/10">
+                  <th className="text-left px-5 py-3 text-white/40 text-xs uppercase tracking-wider font-medium">Categoria</th>
+                  <th className="text-center px-4 py-3 text-white/40 text-xs uppercase tracking-wider font-medium">Total</th>
+                  <th className="text-center px-4 py-3 text-orange-400/70 text-xs uppercase tracking-wider font-medium">Pendentes</th>
+                  <th className="text-center px-4 py-3 text-green-400/70 text-xs uppercase tracking-wider font-medium">Aprovadas</th>
+                  <th className="text-center px-4 py-3 text-red-400/70 text-xs uppercase tracking-wider font-medium">Rejeitadas</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gold-500/5">
+                {byCategory.map(cat => (
+                  <tr key={cat.value} className="hover:bg-white/2 transition-colors">
+                    <td className="px-5 py-3 text-white font-medium">{cat.label}</td>
+                    <td className="px-4 py-3 text-center text-white font-bold">{cat.total}</td>
+                    <td className="px-4 py-3 text-center">
+                      {cat.pending > 0 ? <span className="inline-block px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 font-semibold text-xs">{cat.pending}</span> : <span className="text-white/20">—</span>}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {cat.approved > 0 ? <span className="inline-block px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 font-semibold text-xs">{cat.approved}</span> : <span className="text-white/20">—</span>}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {cat.rejected > 0 ? <span className="inline-block px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 font-semibold text-xs">{cat.rejected}</span> : <span className="text-white/20">—</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       <div className="glass-card rounded-2xl border border-gold-500/10 overflow-hidden">
         <div className="px-5 py-4 border-b border-gold-500/10 flex items-center justify-between">
