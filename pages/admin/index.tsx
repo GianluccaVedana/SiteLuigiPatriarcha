@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { Users, LogOut, Home, Menu, X, Pencil, Check } from 'lucide-react'
+import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface Team {
   id: number
@@ -18,7 +18,7 @@ interface Team {
   status: 'pending' | 'approved' | 'rejected'
   created_at: string
   user_name?: string
-  players: { id: number; name: string; number: number; position: string }[]
+  players: { id: number; name: string; rg: string; birth_date: string }[]
 }
 
 function AdminLayout({ children, title }: { children: React.ReactNode; title: string }) {
@@ -84,6 +84,10 @@ export default function AdminDashboard() {
   const [fetching, setFetching] = useState(true)
   const [editing, setEditing] = useState<Team | null>(null)
   const [saving, setSaving] = useState(false)
+  const [expanded, setExpanded] = useState<Set<number>>(new Set())
+
+  const toggleExpand = (id: number) =>
+    setExpanded(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || user?.role !== 'admin')) router.push('/auth/login')
@@ -152,26 +156,60 @@ export default function AdminDashboard() {
         ) : (
           <div className="divide-y divide-gold-500/10">
             {teams.map(team => (
-              <div key={team.id} className="flex items-center gap-4 px-5 py-4 hover:bg-white/2 transition-all">
-                <div className="w-10 h-10 rounded-full bg-navy-700 flex items-center justify-center text-white/60 font-bold text-sm flex-shrink-0">
-                  {team.team_name[0]}
+              <div key={team.id} className="transition-all">
+                {/* Linha da equipe */}
+                <div className="flex items-center gap-4 px-5 py-4 hover:bg-white/2">
+                  <div className="w-10 h-10 rounded-full bg-navy-700 flex items-center justify-center text-white/60 font-bold text-sm flex-shrink-0">
+                    {team.team_name[0]}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-semibold truncate">{team.team_name}</p>
+                    <p className="text-white/40 text-xs mt-0.5">
+                      {team.city} · {CATEGORIES.find(c => c.value === team.category)?.label || team.category} · {team.responsible} · {team.phone}
+                    </p>
+                    <p className="text-white/30 text-xs">{team.email} · {new Date(team.created_at).toLocaleDateString('pt-BR')}{team.user_name ? ` · ${team.user_name}` : ''}</p>
+                  </div>
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full border flex-shrink-0 ${statusConfig[team.status].color}`}>
+                    {statusConfig[team.status].label}
+                  </span>
+                  <button
+                    onClick={() => toggleExpand(team.id)}
+                    className="p-2 rounded-lg glass-card text-white/40 hover:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
+                    title="Ver atletas"
+                  >
+                    {expanded.has(team.id) ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                  </button>
+                  <button
+                    onClick={() => setEditing({ ...team })}
+                    className="p-2 rounded-lg glass-card text-white/40 hover:text-gold-400 transition-all border border-transparent hover:border-gold-500/20"
+                  >
+                    <Pencil size={15} />
+                  </button>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold truncate">{team.team_name}</p>
-                  <p className="text-white/40 text-xs mt-0.5">
-                    {team.city} · {CATEGORIES.find(c => c.value === team.category)?.label || team.category} · {team.responsible} · {team.phone}
-                  </p>
-                  <p className="text-white/30 text-xs">{team.email} · {new Date(team.created_at).toLocaleDateString('pt-BR')}{team.user_name ? ` · ${team.user_name}` : ''}</p>
-                </div>
-                <span className={`text-xs font-semibold px-3 py-1 rounded-full border flex-shrink-0 ${statusConfig[team.status].color}`}>
-                  {statusConfig[team.status].label}
-                </span>
-                <button
-                  onClick={() => setEditing({ ...team })}
-                  className="p-2 rounded-lg glass-card text-white/40 hover:text-gold-400 transition-all border border-transparent hover:border-gold-500/20"
-                >
-                  <Pencil size={15} />
-                </button>
+
+                {/* Atletas expandidos */}
+                {expanded.has(team.id) && (
+                  <div className="px-5 pb-4 border-t border-gold-500/5 bg-navy-900/30">
+                    <p className="text-white/40 text-xs uppercase tracking-wider font-medium pt-3 mb-2">
+                      Atletas ({team.players.length})
+                    </p>
+                    {team.players.length === 0 ? (
+                      <p className="text-white/20 text-xs py-2">Nenhum atleta cadastrado.</p>
+                    ) : (
+                      <div className="space-y-1.5">
+                        {team.players.map((p, j) => (
+                          <div key={j} className="flex items-center justify-between px-3 py-2 rounded-lg bg-navy-800/60 border border-gold-500/5 text-sm">
+                            <span className="text-white font-medium">{p.name}</span>
+                            <div className="flex gap-4 text-white/40 text-xs">
+                              {p.rg && <span>RG: {p.rg}</span>}
+                              {p.birth_date && <span>{new Date(p.birth_date).toLocaleDateString('pt-BR')}</span>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
