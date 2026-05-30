@@ -10,16 +10,17 @@ import { CATEGORIES } from '@/data/mock'
 import { User, Users, CreditCard, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin } from 'lucide-react'
 
 interface InscricaoData {
-  teamName: string
+  id: number
+  team_name: string
   category: string
   city: string
   state: string
-  responsavel: string
+  responsible: string
   phone: string
   email: string
   status: 'pending' | 'approved' | 'rejected'
-  players: { name: string; number: string; position: string; birthDate: string }[]
-  createdAt: string
+  players: { name: string; number: number; position: string }[]
+  created_at: string
 }
 
 const POSITION_LABELS: Record<string, string> = {
@@ -28,7 +29,7 @@ const POSITION_LABELS: Record<string, string> = {
 
 export default function PainelPage() {
   const router = useRouter()
-  const { user, isAuthenticated, isLoading, logout } = useAuth()
+  const { user, isAuthenticated, isLoading, logout, token } = useAuth()
   const [inscricao, setInscricao] = useState<InscricaoData | null>(null)
 
   useEffect(() => {
@@ -36,13 +37,12 @@ export default function PainelPage() {
   }, [isLoading, isAuthenticated])
 
   useEffect(() => {
-    if (user) {
-      const stored = localStorage.getItem(`luigi_cup_inscricao_${user.id}`)
-      if (stored) {
-        try { setInscricao(JSON.parse(stored)) } catch {}
-      }
-    }
-  }, [user])
+    if (!token) return
+    fetch('/api/teams', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data) && data.length > 0) setInscricao(data[0]) })
+      .catch(() => {})
+  }, [token])
 
   if (isLoading || !user) {
     return (
@@ -115,7 +115,7 @@ export default function PainelPage() {
                   <div className="space-y-0">
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Equipe</span>
-                      <span className="text-white font-semibold">{inscricao.teamName}</span>
+                      <span className="text-white font-semibold">{inscricao.team_name}</span>
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Categoria</span>
@@ -127,7 +127,7 @@ export default function PainelPage() {
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Responsável</span>
-                      <span className="text-white">{inscricao.responsavel}</span>
+                      <span className="text-white">{inscricao.responsible}</span>
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Status</span>
@@ -135,7 +135,7 @@ export default function PainelPage() {
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Inscrito em</span>
-                      <span className="text-white/70 text-sm">{new Date(inscricao.createdAt).toLocaleDateString('pt-BR')}</span>
+                      <span className="text-white/70 text-sm">{new Date(inscricao.created_at).toLocaleDateString('pt-BR')}</span>
                     </div>
 
                     {/* Atletas */}
