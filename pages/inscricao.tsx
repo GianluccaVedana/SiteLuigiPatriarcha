@@ -121,7 +121,6 @@ export default function InscricaoPage() {
                   { label: 'Nome completo *', key: 'responsavel', type: 'text', placeholder: 'Nome do responsável pela equipe' },
                   { label: 'CPF *', key: 'cpf', type: 'text', placeholder: '000.000.000-00' },
                   { label: 'Telefone / WhatsApp *', key: 'phone', type: 'tel', placeholder: '(46) 99999-9999' },
-                  { label: 'E-mail *', key: 'email', type: 'email', placeholder: 'seu@email.com' },
                 ].map(field => (
                   <div key={field.key}>
                     <label className="block text-sm font-medium text-white/70 mb-1.5">{field.label}</label>
