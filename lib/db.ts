@@ -32,6 +32,7 @@ export async function initDB() {
       phone VARCHAR(50) NOT NULL,
       email VARCHAR(200) NOT NULL,
       status VARCHAR(20) DEFAULT 'pending',
+      logo_url VARCHAR(500),
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
 

@@ -22,13 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === 'POST') {
-    const { teamName, city, state, category, responsible, phone, email, players = [] } = req.body
-    if (!teamName || !city || !category || !responsible || !phone || !email)
+    const { teamName, city, state, category, responsible, phone, email, logoUrl, players = [] } = req.body
+    if (!teamName || !city || !category || !responsible || !phone)
       return res.status(400).json({ error: 'Campos obrigatórios faltando.' })
 
     const teamResult = await pool.query(
-      'INSERT INTO teams (user_id, team_name, city, state, category, responsible, phone, email) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
-      [user.id, teamName, city, state || 'PR', category, responsible, phone, email]
+      'INSERT INTO teams (user_id, team_name, city, state, category, responsible, phone, email, logo_url) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *',
+      [user.id, teamName, city, state || 'PR', category, responsible, phone, email || '', logoUrl || null]
     )
     const team = teamResult.rows[0]
 

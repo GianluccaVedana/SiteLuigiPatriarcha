@@ -18,11 +18,28 @@ export default function InscricaoPage() {
   const { isAuthenticated, user, token } = useAuth()
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [form, setForm] = useState({
     responsavel: user?.name || '',
     cpf: '', phone: '', email: user?.email || '',
-    teamName: '', city: '', state: 'PR', category: 'adulto', teamLogo: '',
+    teamName: '', city: '', state: 'PR', category: 'sub-07', teamLogo: '',
   })
+
+  const handleLogoUpload = async (file: File) => {
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: fd,
+    })
+    if (res.ok) {
+      const { url } = await res.json()
+      set('teamLogo', url)
+    }
+    setUploading(false)
+  }
   const [atletas, setAtletas] = useState<AtletaForm[]>([
     { name: '', number: '1', position: 'goleiro', birthDate: '' },
     { name: '', number: '2', position: 'fixo', birthDate: '' },
@@ -47,6 +64,7 @@ export default function InscricaoPage() {
           responsible: form.responsavel,
           phone: form.phone,
           email: form.email,
+          logoUrl: form.teamLogo,
           players: atletas,
         }),
       })
@@ -156,10 +174,23 @@ export default function InscricaoPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-white/70 mb-1.5">Logo da equipe (opcional)</label>
-                  <div className="flex items-center gap-3 p-4 glass-card rounded-xl border border-dashed border-gold-500/20 cursor-pointer hover:border-gold-500/40 transition-all">
-                    <Upload size={20} className="text-gold-400 flex-shrink-0" />
-                    <span className="text-white/40 text-sm">Clique para fazer upload da logo (.png, .jpg)</span>
-                  </div>
+                  <label className="flex items-center gap-3 p-4 glass-card rounded-xl border border-dashed border-gold-500/20 cursor-pointer hover:border-gold-500/40 transition-all">
+                    {form.teamLogo ? (
+                      <img src={form.teamLogo} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/5" />
+                    ) : (
+                      <Upload size={20} className={`flex-shrink-0 ${uploading ? 'text-white/30 animate-pulse' : 'text-gold-400'}`} />
+                    )}
+                    <span className="text-white/40 text-sm">
+                      {uploading ? 'Enviando...' : form.teamLogo ? 'Logo enviada ✓ (clique para trocar)' : 'Clique para fazer upload da logo (.png, .jpg)'}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      className="hidden"
+                      disabled={uploading}
+                      onChange={e => { const f = e.target.files?.[0]; if (f) handleLogoUpload(f) }}
+                    />
+                  </label>
                 </div>
               </div>
             )}
