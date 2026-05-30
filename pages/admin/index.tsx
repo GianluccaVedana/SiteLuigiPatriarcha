@@ -6,18 +6,19 @@ import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
 import { Users, LogOut, Home, Menu, X, Pencil, Check } from 'lucide-react'
 
-interface TeamRecord {
-  userId: string
-  teamName: string
-  category: string
+interface Team {
+  id: number
+  team_name: string
   city: string
   state: string
-  responsavel: string
+  category: string
+  responsible: string
   phone: string
   email: string
   status: 'pending' | 'approved' | 'rejected'
-  players: { name: string; number: string; position: string; birthDate: string }[]
-  createdAt: string
+  created_at: string
+  user_name?: string
+  players: { id: number; name: string; number: number; position: string }[]
 }
 
 function AdminLayout({ children, title }: { children: React.ReactNode; title: string }) {
@@ -78,35 +79,47 @@ const statusConfig = {
 
 export default function AdminDashboard() {
   const router = useRouter()
-  const { user, isAuthenticated, isLoading } = useAuth()
-  const [teams, setTeams] = useState<(TeamRecord & { key: string })[]>([])
-  const [editing, setEditing] = useState<(TeamRecord & { key: string }) | null>(null)
+  const { user, isAuthenticated, isLoading, token } = useAuth()
+  const [teams, setTeams] = useState<Team[]>([])
+  const [fetching, setFetching] = useState(true)
+  const [editing, setEditing] = useState<Team | null>(null)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || user?.role !== 'admin')) router.push('/auth/login')
   }, [isLoading, isAuthenticated, user])
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const loaded: (TeamRecord & { key: string })[] = []
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)
-      if (key?.startsWith('luigi_cup_inscricao_')) {
-        try {
-          const data = JSON.parse(localStorage.getItem(key)!) as TeamRecord
-          loaded.push({ ...data, userId: key.replace('luigi_cup_inscricao_', ''), key })
-        } catch {}
-      }
-    }
-    loaded.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    setTeams(loaded)
-  }, [])
+    if (!token) return
+    fetch('/api/teams', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => { setTeams(Array.isArray(data) ? data : []); setFetching(false) })
+      .catch(() => setFetching(false))
+  }, [token])
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (!editing) return
-    localStorage.setItem(editing.key, JSON.stringify(editing))
-    setTeams(ts => ts.map(t => t.key === editing.key ? editing : t))
-    setEditing(null)
+    setSaving(true)
+    const res = await fetch(`/api/teams/${editing.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        teamName: editing.team_name,
+        city: editing.city,
+        state: editing.state,
+        category: editing.category,
+        responsible: editing.responsible,
+        phone: editing.phone,
+        email: editing.email,
+        status: editing.status,
+      }),
+    })
+    if (res.ok) {
+      const updated = await res.json()
+      setTeams(ts => ts.map(t => t.id === updated.id ? { ...t, ...updated } : t))
+      setEditing(null)
+    }
+    setSaving(false)
   }
 
   if (isLoading || !user) {
@@ -127,7 +140,11 @@ export default function AdminDashboard() {
           <span className="text-white/40 text-sm">{teams.length} equipe{teams.length !== 1 ? 's' : ''}</span>
         </div>
 
-        {teams.length === 0 ? (
+        {fetching ? (
+          <div className="flex justify-center py-16">
+            <div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : teams.length === 0 ? (
           <div className="text-center py-16 text-white/30">
             <Users size={40} className="mx-auto mb-3 opacity-30" />
             <p>Nenhuma equipe inscrita ainda.</p>
@@ -135,18 +152,18 @@ export default function AdminDashboard() {
         ) : (
           <div className="divide-y divide-gold-500/10">
             {teams.map(team => (
-              <div key={team.key} className="flex items-center gap-4 px-5 py-4 hover:bg-white/2 transition-all">
+              <div key={team.id} className="flex items-center gap-4 px-5 py-4 hover:bg-white/2 transition-all">
                 <div className="w-10 h-10 rounded-full bg-navy-700 flex items-center justify-center text-white/60 font-bold text-sm flex-shrink-0">
-                  {team.teamName[0]}
+                  {team.team_name[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold truncate">{team.teamName}</p>
+                  <p className="text-white font-semibold truncate">{team.team_name}</p>
                   <p className="text-white/40 text-xs mt-0.5">
-                    {team.city} · {CATEGORIES.find(c => c.value === team.category)?.label || team.category} · {team.responsavel} · {team.phone}
+                    {team.city} · {CATEGORIES.find(c => c.value === team.category)?.label || team.category} · {team.responsible} · {team.phone}
                   </p>
-                  <p className="text-white/30 text-xs">{team.email} · {new Date(team.createdAt).toLocaleDateString('pt-BR')}</p>
+                  <p className="text-white/30 text-xs">{team.email} · {new Date(team.created_at).toLocaleDateString('pt-BR')}{team.user_name ? ` · ${team.user_name}` : ''}</p>
                 </div>
-                <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${statusConfig[team.status].color}`}>
+                <span className={`text-xs font-semibold px-3 py-1 rounded-full border flex-shrink-0 ${statusConfig[team.status].color}`}>
                   {statusConfig[team.status].label}
                 </span>
                 <button
@@ -161,7 +178,7 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      {/* Edit modal */}
+      {/* Modal de edição */}
       {editing && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setEditing(null)}>
           <div className="glass-card rounded-2xl border border-gold-500/20 w-full max-w-lg p-6" onClick={e => e.stopPropagation()}>
@@ -173,7 +190,7 @@ export default function AdminDashboard() {
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-1">Nome da equipe</label>
-                <input value={editing.teamName} onChange={e => setEditing(ed => ed && ({ ...ed, teamName: e.target.value }))} className="form-input" />
+                <input value={editing.team_name} onChange={e => setEditing(ed => ed && ({ ...ed, team_name: e.target.value }))} className="form-input" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -189,7 +206,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-1">Responsável</label>
-                <input value={editing.responsavel} onChange={e => setEditing(ed => ed && ({ ...ed, responsavel: e.target.value }))} className="form-input" />
+                <input value={editing.responsible} onChange={e => setEditing(ed => ed && ({ ...ed, responsible: e.target.value }))} className="form-input" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -215,8 +232,8 @@ export default function AdminDashboard() {
               <button onClick={() => setEditing(null)} className="flex-1 py-2.5 rounded-xl glass-card text-white/60 hover:text-white text-sm font-semibold border border-white/10 transition-all">
                 Cancelar
               </button>
-              <button onClick={saveEdit} className="flex-1 py-2.5 rounded-xl bg-gold-gradient text-navy-900 font-bold text-sm flex items-center justify-center gap-2">
-                <Check size={16} />Salvar
+              <button onClick={saveEdit} disabled={saving} className="flex-1 py-2.5 rounded-xl bg-gold-gradient text-navy-900 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60">
+                {saving ? <span className="w-4 h-4 border-2 border-navy-900 border-t-transparent rounded-full animate-spin" /> : <><Check size={16} />Salvar</>}
               </button>
             </div>
           </div>

@@ -1,20 +1,48 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '@/components/layout/Layout'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
-import { User, Users, CreditCard, AlertCircle, CheckCircle2, Clock, LogOut, Plus } from 'lucide-react'
+import { CATEGORIES } from '@/data/mock'
+import { User, Users, CreditCard, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin } from 'lucide-react'
+
+interface InscricaoData {
+  teamName: string
+  category: string
+  city: string
+  state: string
+  responsavel: string
+  phone: string
+  email: string
+  status: 'pending' | 'approved' | 'rejected'
+  players: { name: string; number: string; position: string; birthDate: string }[]
+  createdAt: string
+}
+
+const POSITION_LABELS: Record<string, string> = {
+  goleiro: 'Goleiro', fixo: 'Fixo', ala: 'Ala', pivo: 'Pivô',
+}
 
 export default function PainelPage() {
   const router = useRouter()
   const { user, isAuthenticated, isLoading, logout } = useAuth()
+  const [inscricao, setInscricao] = useState<InscricaoData | null>(null)
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) router.push('/auth/login')
   }, [isLoading, isAuthenticated])
+
+  useEffect(() => {
+    if (user) {
+      const stored = localStorage.getItem(`luigi_cup_inscricao_${user.id}`)
+      if (stored) {
+        try { setInscricao(JSON.parse(stored)) } catch {}
+      }
+    }
+  }, [user])
 
   if (isLoading || !user) {
     return (
@@ -29,29 +57,15 @@ export default function PainelPage() {
     return null
   }
 
-  const mockInscricao: {
-    teamName: string; category: string
-    status: 'none' | 'pending' | 'approved' | 'rejected'
-    payment: 'none' | 'pending' | 'paid' | 'overdue'
-    players: number
-  } = {
-    teamName: 'Sem equipe inscrita', category: '–',
-    status: 'none', payment: 'none', players: 0,
-  }
-
   const statusConfig = {
-    none: { label: 'Sem inscrição', variant: 'default' as const, icon: AlertCircle },
     pending: { label: 'Aguardando aprovação', variant: 'orange' as const, icon: Clock },
     approved: { label: 'Aprovada', variant: 'green' as const, icon: CheckCircle2 },
     rejected: { label: 'Rejeitada', variant: 'red' as const, icon: AlertCircle },
   }
 
-  const paymentConfig = {
-    none: { label: '–', variant: 'default' as const },
-    pending: { label: 'Aguardando pagamento', variant: 'orange' as const },
-    paid: { label: 'Pago', variant: 'green' as const },
-    overdue: { label: 'Vencido', variant: 'red' as const },
-  }
+  const categoryLabel = inscricao
+    ? (CATEGORIES.find(c => c.value === inscricao.category)?.label ?? inscricao.category)
+    : ''
 
   return (
     <Layout>
@@ -87,7 +101,7 @@ export default function PainelPage() {
                   <Users size={18} className="text-gold-400" />Minha Inscrição
                 </h2>
 
-                {mockInscricao.status === 'none' ? (
+                {!inscricao ? (
                   <div className="text-center py-8">
                     <div className="w-16 h-16 rounded-full bg-navy-700 flex items-center justify-center mx-auto mb-4">
                       <Users size={28} className="text-white/20" />
@@ -98,22 +112,51 @@ export default function PainelPage() {
                     </Link>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-0">
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Equipe</span>
-                      <span className="text-white font-semibold">{mockInscricao.teamName}</span>
+                      <span className="text-white font-semibold">{inscricao.teamName}</span>
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Categoria</span>
-                      <span className="text-white">{mockInscricao.category}</span>
+                      <span className="text-white">{categoryLabel}</span>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
+                      <span className="text-white/50 text-sm flex items-center gap-1"><MapPin size={12} />Cidade</span>
+                      <span className="text-white">{inscricao.city}{inscricao.state ? ` · ${inscricao.state}` : ''}</span>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
+                      <span className="text-white/50 text-sm">Responsável</span>
+                      <span className="text-white">{inscricao.responsavel}</span>
                     </div>
                     <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
                       <span className="text-white/50 text-sm">Status</span>
-                      <Badge variant={statusConfig[mockInscricao.status].variant}>{statusConfig[mockInscricao.status].label}</Badge>
+                      <Badge variant={statusConfig[inscricao.status].variant}>{statusConfig[inscricao.status].label}</Badge>
                     </div>
-                    <div className="flex items-center justify-between py-3">
-                      <span className="text-white/50 text-sm">Atletas</span>
-                      <span className="text-white">{mockInscricao.players} cadastrados</span>
+                    <div className="flex items-center justify-between py-3 border-b border-gold-500/10">
+                      <span className="text-white/50 text-sm">Inscrito em</span>
+                      <span className="text-white/70 text-sm">{new Date(inscricao.createdAt).toLocaleDateString('pt-BR')}</span>
+                    </div>
+
+                    {/* Atletas */}
+                    <div className="pt-5">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-white/50 text-sm font-medium">Atletas cadastrados</span>
+                        <Badge variant="blue">{inscricao.players.length} atletas</Badge>
+                      </div>
+                      <div className="space-y-2">
+                        {inscricao.players.map((p, i) => (
+                          <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-navy-800/50 border border-gold-500/5">
+                            <div className="flex items-center gap-3">
+                              <span className="w-7 h-7 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 text-xs font-bold">
+                                {p.number}
+                              </span>
+                              <span className="text-white text-sm">{p.name || <span className="text-white/30 italic">Sem nome</span>}</span>
+                            </div>
+                            <span className="text-white/40 text-xs">{POSITION_LABELS[p.position] ?? p.position}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -126,17 +169,9 @@ export default function PainelPage() {
                 <h2 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
                   <CreditCard size={18} className="text-gold-400" />Pagamento
                 </h2>
-
-                {mockInscricao.payment === 'none' ? (
-                  <div className="text-center py-6 text-white/30 text-sm">
-                    Nenhuma cobrança gerada.
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex justify-between"><span className="text-white/50 text-sm">Valor</span><span className="text-white font-bold">R$ 250,00</span></div>
-                    <div className="flex justify-between"><span className="text-white/50 text-sm">Status</span><Badge variant={paymentConfig[mockInscricao.payment].variant}>{paymentConfig[mockInscricao.payment].label}</Badge></div>
-                  </div>
-                )}
+                <div className="text-center py-6 text-white/30 text-sm">
+                  Nenhuma cobrança gerada.
+                </div>
               </div>
             </AnimatedSection>
           </div>

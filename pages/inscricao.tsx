@@ -15,7 +15,7 @@ interface AtletaForm { name: string; number: string; position: string; birthDate
 
 export default function InscricaoPage() {
   const router = useRouter()
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, token } = useAuth()
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -36,7 +36,20 @@ export default function InscricaoPage() {
   const handleNext = async () => {
     if (step === STEPS.length - 2) {
       setLoading(true)
-      await new Promise(r => setTimeout(r, 1500))
+      await fetch('/api/teams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          teamName: form.teamName,
+          city: form.city,
+          state: form.state,
+          category: form.category,
+          responsible: form.responsavel,
+          phone: form.phone,
+          email: form.email,
+          players: atletas,
+        }),
+      })
       setLoading(false)
     }
     setStep(s => s + 1)

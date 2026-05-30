@@ -1,78 +1,86 @@
 import { useState, useEffect } from 'react'
-import { User } from '@/types'
+
+export interface AuthUser {
+  id: number
+  name: string
+  email: string
+  role: 'admin' | 'user'
+  created_at: string
+}
 
 interface AuthState {
-  user: User | null
+  user: AuthUser | null
   isLoading: boolean
   isAuthenticated: boolean
+}
+
+function getStoredToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('luigi_cup_token')
+}
+
+function getStoredUser(): AuthUser | null {
+  if (typeof window === 'undefined') return null
+  const s = localStorage.getItem('luigi_cup_user')
+  try { return s ? JSON.parse(s) : null } catch { return null }
 }
 
 export function useAuth(): AuthState & {
   login: (email: string, password: string) => Promise<boolean>
   logout: () => void
-  register: (data: Partial<User> & { password: string }) => Promise<boolean>
+  register: (data: { name: string; email: string; password: string }) => Promise<boolean>
+  token: string | null
 } {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isLoading: true,
-    isAuthenticated: false,
-  })
+  const [state, setState] = useState<AuthState>({ user: null, isLoading: true, isAuthenticated: false })
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem('luigi_cup_user')
-    if (stored) {
-      try {
-        const user = JSON.parse(stored) as User
-        setState({ user, isLoading: false, isAuthenticated: true })
-      } catch {
-        setState({ user: null, isLoading: false, isAuthenticated: false })
-      }
+    const t = getStoredToken()
+    const u = getStoredUser()
+    if (t && u) {
+      setToken(t)
+      setState({ user: u, isLoading: false, isAuthenticated: true })
     } else {
       setState(s => ({ ...s, isLoading: false }))
     }
   }, [])
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    await new Promise(r => setTimeout(r, 800))
-    if (email === 'admin@luigipatriarcha.com' && password === 'admin123') {
-      const user: User = {
-        id: 'admin-1', name: 'Administrador', email, role: 'admin',
-        createdAt: new Date().toISOString(),
-      }
-      localStorage.setItem('luigi_cup_user', JSON.stringify(user))
-      setState({ user, isLoading: false, isAuthenticated: true })
-      return true
-    }
-    if (password.length >= 6) {
-      const user: User = {
-        id: `user-${Date.now()}`, name: email.split('@')[0], email, role: 'user',
-        createdAt: new Date().toISOString(),
-      }
-      localStorage.setItem('luigi_cup_user', JSON.stringify(user))
-      setState({ user, isLoading: false, isAuthenticated: true })
-      return true
-    }
-    return false
-  }
-
-  const logout = () => {
-    localStorage.removeItem('luigi_cup_user')
-    setState({ user: null, isLoading: false, isAuthenticated: false })
-  }
-
-  const register = async (data: Partial<User> & { password: string }): Promise<boolean> => {
-    await new Promise(r => setTimeout(r, 1000))
-    const user: User = {
-      id: `user-${Date.now()}`,
-      name: data.name || 'Usuário',
-      email: data.email || '',
-      role: 'user',
-      createdAt: new Date().toISOString(),
-    }
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    if (!res.ok) return false
+    const { user, token: t } = await res.json()
+    localStorage.setItem('luigi_cup_token', t)
     localStorage.setItem('luigi_cup_user', JSON.stringify(user))
+    setToken(t)
     setState({ user, isLoading: false, isAuthenticated: true })
     return true
   }
 
-  return { ...state, login, logout, register }
+  const register = async (data: { name: string; email: string; password: string }): Promise<boolean> => {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    if (!res.ok) return false
+    const { user, token: t } = await res.json()
+    localStorage.setItem('luigi_cup_token', t)
+    localStorage.setItem('luigi_cup_user', JSON.stringify(user))
+    setToken(t)
+    setState({ user, isLoading: false, isAuthenticated: true })
+    return true
+  }
+
+  const logout = () => {
+    localStorage.removeItem('luigi_cup_token')
+    localStorage.removeItem('luigi_cup_user')
+    setToken(null)
+    setState({ user: null, isLoading: false, isAuthenticated: false })
+  }
+
+  return { ...state, login, logout, register, token }
 }
