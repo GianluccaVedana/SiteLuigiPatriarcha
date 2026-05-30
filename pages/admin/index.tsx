@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp, Trash2, Download, Plus } from 'lucide-react'
+import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp, Trash2, Download, Plus, BarChart2 } from 'lucide-react'
 
 interface Player { name: string; rg: string; birthDate: string }
 
@@ -24,10 +24,24 @@ interface Team {
   players: { id: number; name: string; rg: string; birth_date: string }[]
 }
 
-function AdminLayout({ children, title }: { children: React.ReactNode; title: string }) {
+function AdminLayout({ children, title, view, onView }: {
+  children: React.ReactNode
+  title: string
+  view: 'dashboard' | 'teams'
+  onView: (v: 'dashboard' | 'teams') => void
+}) {
   const router = useRouter()
   const { user, logout } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const navItem = (v: 'dashboard' | 'teams', icon: React.ReactNode, label: string) => (
+    <button
+      onClick={() => { onView(v); setSidebarOpen(false) }}
+      className={`admin-nav-item w-full ${view === v ? 'active' : ''}`}
+    >
+      {icon}<span className="text-sm">{label}</span>
+    </button>
+  )
 
   return (
     <div className="min-h-screen bg-navy-950 flex">
@@ -41,9 +55,8 @@ function AdminLayout({ children, title }: { children: React.ReactNode; title: st
           <button onClick={() => setSidebarOpen(false)} className="ml-auto lg:hidden text-white/40"><X size={18} /></button>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
-          <Link href="/admin" onClick={() => setSidebarOpen(false)} className="admin-nav-item active">
-            <Users size={18} /><span className="text-sm">Equipes Inscritas</span>
-          </Link>
+          {navItem('dashboard', <BarChart2 size={18} />, 'Dashboard')}
+          {navItem('teams', <Users size={18} />, 'Equipes Inscritas')}
         </nav>
         <div className="px-3 py-4 border-t border-gold-500/10">
           <Link href="/" className="admin-nav-item mb-1"><Home size={18} /><span className="text-sm">Ver site</span></Link>
@@ -83,6 +96,7 @@ const statusConfig = {
 export default function AdminDashboard() {
   const router = useRouter()
   const { user, isAuthenticated, isLoading, token } = useAuth()
+  const [view, setView] = useState<'dashboard' | 'teams'>('dashboard')
   const [teams, setTeams] = useState<Team[]>([])
   const [fetching, setFetching] = useState(true)
   const [filters, setFilters] = useState({ status: '', category: '', city: '', responsible: '' })
@@ -204,9 +218,10 @@ export default function AdminDashboard() {
   })).filter(c => c.total > 0)
 
   return (
-    <AdminLayout title="Dashboard">
+    <AdminLayout title={view === 'dashboard' ? 'Dashboard' : 'Equipes Inscritas'} view={view} onView={setView}>
       <Head><title>Admin · 29ª Taça Luigi Patriarcha</title></Head>
 
+      {view === 'dashboard' && <>
       {/* Cards resumo */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
@@ -260,7 +275,9 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+      </>}
 
+      {view === 'teams' && <>
       <div className="glass-card rounded-2xl border border-gold-500/10 overflow-hidden">
         <div className="px-5 py-4 border-b border-gold-500/10 flex items-center justify-between">
           <h2 className="font-bold text-white flex items-center gap-2">
@@ -401,6 +418,7 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+      </>}
 
       {/* Modal de edição */}
       {editing && (
