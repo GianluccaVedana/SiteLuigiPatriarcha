@@ -187,7 +187,7 @@ export default function PainelPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between"><span className="text-white/40">Nome</span><span className="text-white">{user.name}</span></div>
                   <div className="flex justify-between"><span className="text-white/40">E-mail</span><span className="text-white/70 text-xs truncate max-w-[140px]">{user.email}</span></div>
-                  <div className="flex justify-between"><span className="text-white/40">Conta criada</span><span className="text-white/70">{new Date(user.createdAt).toLocaleDateString('pt-BR')}</span></div>
+                  <div className="flex justify-between"><span className="text-white/40">Conta criada</span><span className="text-white/70">{new Date(user.created_at).toLocaleDateString('pt-BR')}</span></div>
                 </div>
               </div>
             </AnimatedSection>
