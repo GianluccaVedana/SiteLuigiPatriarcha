@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp, Trash2, Download, Plus, Image } from 'lucide-react'
+import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp, Trash2, Download, Plus } from 'lucide-react'
 
 interface Player { name: string; rg: string; birthDate: string }
 
@@ -85,6 +85,7 @@ export default function AdminDashboard() {
   const { user, isAuthenticated, isLoading, token } = useAuth()
   const [teams, setTeams] = useState<Team[]>([])
   const [fetching, setFetching] = useState(true)
+  const [filters, setFilters] = useState({ status: '', category: '', city: '', responsible: '' })
   const [editing, setEditing] = useState<Team | null>(null)
   const [saving, setSaving] = useState(false)
   const [expanded, setExpanded] = useState<Set<number>>(new Set())
@@ -146,6 +147,15 @@ export default function AdminDashboard() {
       .catch(() => setFetching(false))
   }, [token])
 
+  const setFilter = (k: keyof typeof filters, v: string) => setFilters(f => ({ ...f, [k]: v }))
+
+  const filteredTeams = teams.filter(t =>
+    (!filters.status   || t.status === filters.status) &&
+    (!filters.category || t.category === filters.category) &&
+    (!filters.city     || t.city.toLowerCase().includes(filters.city.toLowerCase())) &&
+    (!filters.responsible || t.responsible.toLowerCase().includes(filters.responsible.toLowerCase()))
+  )
+
   const saveEdit = async () => {
     if (!editing) return
     setSaving(true)
@@ -186,21 +196,49 @@ export default function AdminDashboard() {
           <h2 className="font-bold text-white flex items-center gap-2">
             <Users size={18} className="text-gold-400" />Equipes Inscritas
           </h2>
-          <span className="text-white/40 text-sm">{teams.length} equipe{teams.length !== 1 ? 's' : ''}</span>
+          <span className="text-white/40 text-sm">
+            {filteredTeams.length}{filteredTeams.length !== teams.length ? ` de ${teams.length}` : ''} equipe{teams.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        {/* Filtros */}
+        <div className="px-5 py-3 border-b border-gold-500/10 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <select value={filters.status} onChange={e => setFilter('status', e.target.value)} className="form-input text-sm py-2">
+            <option value="">Todos os status</option>
+            <option value="pending">Pendente</option>
+            <option value="approved">Aprovada</option>
+            <option value="rejected">Rejeitada</option>
+          </select>
+          <select value={filters.category} onChange={e => setFilter('category', e.target.value)} className="form-input text-sm py-2">
+            <option value="">Todas as categorias</option>
+            {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+          </select>
+          <input
+            value={filters.city}
+            onChange={e => setFilter('city', e.target.value)}
+            className="form-input text-sm py-2"
+            placeholder="Filtrar por cidade..."
+          />
+          <input
+            value={filters.responsible}
+            onChange={e => setFilter('responsible', e.target.value)}
+            className="form-input text-sm py-2"
+            placeholder="Filtrar por responsável..."
+          />
         </div>
 
         {fetching ? (
           <div className="flex justify-center py-16">
             <div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
           </div>
-        ) : teams.length === 0 ? (
+        ) : filteredTeams.length === 0 ? (
           <div className="text-center py-16 text-white/30">
             <Users size={40} className="mx-auto mb-3 opacity-30" />
-            <p>Nenhuma equipe inscrita ainda.</p>
+            <p>{teams.length === 0 ? 'Nenhuma equipe inscrita ainda.' : 'Nenhuma equipe encontrada com esses filtros.'}</p>
           </div>
         ) : (
           <div className="divide-y divide-gold-500/10">
-            {teams.map(team => (
+            {filteredTeams.map(team => (
               <div key={team.id} className="transition-all">
                 {/* Linha da equipe */}
                 <div className="flex items-center gap-4 px-5 py-4 hover:bg-white/2">
