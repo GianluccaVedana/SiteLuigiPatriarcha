@@ -7,7 +7,7 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check } from 'lucide-react'
+import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check, Loader2 } from 'lucide-react'
 
 interface Player { name: string; rg: string; birthDate: string }
 
@@ -40,6 +40,18 @@ export default function PainelPage() {
   const [editingTeam, setEditingTeam] = useState<TeamData | null>(null)
   const [editPlayers, setEditPlayers] = useState<Player[]>([])
   const [saving, setSaving] = useState(false)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
+
+  const deleteTeam = async (id: number) => {
+    if (!confirm('Tem certeza que deseja excluir esta inscrição?')) return
+    setDeletingId(id)
+    const res = await fetch(`/api/teams/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (res.ok || res.status === 204) setTeams(ts => ts.filter(t => t.id !== id))
+    setDeletingId(null)
+  }
 
   const openEdit = (team: TeamData) => {
     setEditingTeam(team)
@@ -165,9 +177,23 @@ export default function PainelPage() {
                           </p>
                         </div>
                       </div>
-                      <Badge variant={statusConfig[team.status].variant}>
-                        {statusConfig[team.status].label}
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge variant={statusConfig[team.status].variant}>
+                          {statusConfig[team.status].label}
+                        </Badge>
+                        {team.status === 'pending' && (
+                          <button
+                            onClick={() => deleteTeam(team.id)}
+                            disabled={deletingId === team.id}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg glass-card text-red-400 text-xs font-semibold border border-red-500/20 hover:bg-red-500/10 transition-all disabled:opacity-50"
+                          >
+                            {deletingId === team.id
+                              ? <Loader2 size={11} className="animate-spin" />
+                              : <Trash2 size={11} />}
+                            Excluir
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 text-sm mb-4">

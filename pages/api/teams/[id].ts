@@ -30,7 +30,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === 'DELETE') {
-    if (user.role !== 'admin') return res.status(403).json({ error: 'Sem permissão.' })
+    const team = await pool.query('SELECT user_id, status FROM teams WHERE id = $1', [id])
+    if (!team.rows[0]) return res.status(404).json({ error: 'Equipe não encontrada.' })
+
+    // Usuário só pode excluir a própria equipe enquanto estiver pendente
+    if (user.role !== 'admin') {
+      if (team.rows[0].user_id !== user.id) return res.status(403).json({ error: 'Sem permissão.' })
+      if (team.rows[0].status !== 'pending') return res.status(403).json({ error: 'Inscrição já processada, não é possível excluir.' })
+    }
+
     await pool.query('DELETE FROM teams WHERE id = $1', [id])
     return res.status(204).end()
   }
