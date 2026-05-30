@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp } from 'lucide-react'
+import { Users, LogOut, Home, Menu, X, Pencil, Check, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
 
 interface Team {
   id: number
@@ -85,6 +85,18 @@ export default function AdminDashboard() {
   const [editing, setEditing] = useState<Team | null>(null)
   const [saving, setSaving] = useState(false)
   const [expanded, setExpanded] = useState<Set<number>>(new Set())
+  const [deletingId, setDeletingId] = useState<number | null>(null)
+
+  const deleteTeam = async (id: number, name: string) => {
+    if (!confirm(`Excluir a equipe "${name}"? Esta ação não pode ser desfeita.`)) return
+    setDeletingId(id)
+    const res = await fetch(`/api/teams/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (res.ok || res.status === 204) setTeams(ts => ts.filter(t => t.id !== id))
+    setDeletingId(null)
+  }
 
   const toggleExpand = (id: number) =>
     setExpanded(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
@@ -182,8 +194,19 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setEditing({ ...team })}
                     className="p-2 rounded-lg glass-card text-white/40 hover:text-gold-400 transition-all border border-transparent hover:border-gold-500/20"
+                    title="Editar"
                   >
                     <Pencil size={15} />
+                  </button>
+                  <button
+                    onClick={() => deleteTeam(team.id, team.team_name)}
+                    disabled={deletingId === team.id}
+                    className="p-2 rounded-lg glass-card text-white/40 hover:text-red-400 transition-all border border-transparent hover:border-red-500/20 disabled:opacity-40"
+                    title="Excluir"
+                  >
+                    {deletingId === team.id
+                      ? <span className="w-3.5 h-3.5 border-2 border-red-400 border-t-transparent rounded-full animate-spin block" />
+                      : <Trash2 size={15} />}
                   </button>
                 </div>
 
