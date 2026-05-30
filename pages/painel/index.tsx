@@ -7,7 +7,9 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin } from 'lucide-react'
+import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check } from 'lucide-react'
+
+interface Player { name: string; number: string; position: string }
 
 interface TeamData {
   id: number
@@ -38,6 +40,39 @@ export default function PainelPage() {
   const { user, isAuthenticated, isLoading, logout, token } = useAuth()
   const [teams, setTeams] = useState<TeamData[]>([])
   const [fetching, setFetching] = useState(true)
+  const [editingTeam, setEditingTeam] = useState<TeamData | null>(null)
+  const [editPlayers, setEditPlayers] = useState<Player[]>([])
+  const [saving, setSaving] = useState(false)
+
+  const openEdit = (team: TeamData) => {
+    setEditingTeam(team)
+    setEditPlayers(team.players.map(p => ({ name: p.name, number: String(p.number ?? ''), position: p.position })))
+  }
+
+  const setPlayer = (i: number, k: keyof Player, v: string) =>
+    setEditPlayers(ps => ps.map((p, idx) => idx === i ? { ...p, [k]: v } : p))
+
+  const addPlayer = () =>
+    setEditPlayers(ps => [...ps, { name: '', number: String(ps.length + 1), position: 'ala' }])
+
+  const removePlayer = (i: number) =>
+    setEditPlayers(ps => ps.filter((_, idx) => idx !== i))
+
+  const savePlayers = async () => {
+    if (!editingTeam) return
+    setSaving(true)
+    const res = await fetch(`/api/teams/${editingTeam.id}/players`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ players: editPlayers }),
+    })
+    if (res.ok) {
+      const updated = await res.json()
+      setTeams(ts => ts.map(t => t.id === editingTeam.id ? { ...t, players: updated } : t))
+      setEditingTeam(null)
+    }
+    setSaving(false)
+  }
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) router.push('/auth/login')
@@ -157,12 +192,22 @@ export default function PainelPage() {
                       </div>
                     </div>
 
-                    {team.players.length > 0 && (
-                      <div className="border-t border-gold-500/10 pt-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-white/50 text-xs font-medium uppercase tracking-wide">Atletas</span>
+                    <div className="border-t border-gold-500/10 pt-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white/50 text-xs font-medium uppercase tracking-wide">Atletas</span>
+                        <div className="flex items-center gap-2">
                           <Badge variant="blue" size="sm">{team.players.length}</Badge>
+                          <button
+                            onClick={() => openEdit(team)}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg glass-card text-gold-400 text-xs font-semibold border border-gold-500/20 hover:bg-gold-500/10 transition-all"
+                          >
+                            <Pencil size={11} />Editar
+                          </button>
                         </div>
+                      </div>
+                      {team.players.length === 0 ? (
+                        <p className="text-white/30 text-xs text-center py-3">Nenhum atleta cadastrado.</p>
+                      ) : (
                         <div className="space-y-1.5">
                           {team.players.map((p, j) => (
                             <div key={j} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-navy-800/50 border border-gold-500/5">
@@ -174,8 +219,8 @@ export default function PainelPage() {
                             </div>
                           ))}
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </AnimatedSection>
               ))
@@ -199,6 +244,79 @@ export default function PainelPage() {
           </div>
         </div>
       </div>
+      {/* Modal edição de atletas */}
+      {editingTeam && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setEditingTeam(null)}>
+          <div className="glass-card rounded-2xl border border-gold-500/20 w-full max-w-lg max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gold-500/10">
+              <h3 className="text-white font-bold">Atletas — {editingTeam.team_name}</h3>
+              <button onClick={() => setEditingTeam(null)} className="text-white/40 hover:text-white"><X size={20} /></button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+              {editPlayers.map((p, i) => (
+                <div key={i} className="glass-card rounded-xl p-3 border border-gold-500/10">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-gold-400 text-xs font-bold">Atleta #{i + 1}</span>
+                    {editPlayers.length > 1 && (
+                      <button onClick={() => removePlayer(i)} className="text-red-400 hover:text-red-300 transition-colors">
+                        <Trash2 size={13} />
+                      </button>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="col-span-2">
+                      <input
+                        value={p.name}
+                        onChange={e => setPlayer(i, 'name', e.target.value)}
+                        className="form-input text-sm"
+                        placeholder="Nome completo"
+                      />
+                    </div>
+                    <input
+                      value={p.number}
+                      onChange={e => setPlayer(i, 'number', e.target.value)}
+                      className="form-input text-sm"
+                      placeholder="Nº"
+                      type="number"
+                      min="1"
+                      max="99"
+                    />
+                    <select
+                      value={p.position}
+                      onChange={e => setPlayer(i, 'position', e.target.value)}
+                      className="form-input text-sm"
+                    >
+                      <option value="goleiro">Goleiro</option>
+                      <option value="fixo">Fixo</option>
+                      <option value="ala">Ala</option>
+                      <option value="pivo">Pivô</option>
+                    </select>
+                  </div>
+                </div>
+              ))}
+
+              {editPlayers.length < 15 && (
+                <button
+                  onClick={addPlayer}
+                  className="w-full py-2.5 rounded-xl glass-card border border-dashed border-gold-500/20 text-gold-400 text-sm font-semibold hover:border-gold-500/40 hover:bg-gold-500/5 transition-all flex items-center justify-center gap-2"
+                >
+                  <Plus size={15} />Adicionar atleta
+                </button>
+              )}
+            </div>
+
+            <div className="flex gap-3 px-6 py-4 border-t border-gold-500/10">
+              <button onClick={() => setEditingTeam(null)} className="flex-1 py-2.5 rounded-xl glass-card text-white/60 hover:text-white text-sm font-semibold border border-white/10 transition-all">
+                Cancelar
+              </button>
+              <button onClick={savePlayers} disabled={saving} className="flex-1 py-2.5 rounded-xl bg-gold-gradient text-navy-900 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60">
+                {saving ? <span className="w-4 h-4 border-2 border-navy-900 border-t-transparent rounded-full animate-spin" /> : <><Check size={15} />Salvar</>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   )
 }
