@@ -272,14 +272,11 @@ export default function PainelPage() {
                 </h3>
                 <div className="space-y-2">
                   {[
-                    { qty: '1 equipe', price: 'R$ 400,00', unit: '' },
-                    { qty: '2 equipes', price: 'R$ 380,00', unit: 'por equipe' },
-                    { qty: '3+ equipes', price: 'R$ 350,00', unit: 'por equipe' },
+                    { qty: '1 equipe', price: 'R$ 400,00', unit: '', active: teams.length === 1 },
+                    { qty: '2+ equipes', price: 'R$ 380,00', unit: 'por equipe', active: teams.length >= 2 },
                   ].map((row, i) => (
                     <div key={i} className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm ${
-                      (teams.length === 1 && i === 0) ||
-                      (teams.length === 2 && i === 1) ||
-                      (teams.length >= 3 && i === 2)
+                      row.active
                         ? 'bg-gold-500/10 border border-gold-500/30'
                         : 'bg-navy-800/40 border border-transparent'
                     }`}>
@@ -302,7 +299,7 @@ export default function PainelPage() {
                   </h3>
                   {(() => {
                     const n = teams.length
-                    const unitPrice = n === 1 ? 400 : n === 2 ? 380 : 350
+                    const unitPrice = n === 1 ? 400 : 380
                     const total = n * unitPrice
                     return (
                       <div className="space-y-2 text-sm">
