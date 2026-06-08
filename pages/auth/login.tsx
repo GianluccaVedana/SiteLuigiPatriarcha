@@ -101,18 +101,6 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gold-500/10">
-              <p className="text-xs text-white/20 text-center mb-3">Acesso de demonstração</p>
-              <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => { setEmail('admin@luigipatriarcha.com'); setPassword('admin123') }} className="py-2 px-3 rounded-lg glass-card text-xs text-white/40 hover:text-gold-400 transition-all border border-gold-500/10">
-                  Admin demo
-                </button>
-                <button onClick={() => { setEmail('user@email.com'); setPassword('senha123') }} className="py-2 px-3 rounded-lg glass-card text-xs text-white/40 hover:text-blue-400 transition-all border border-blue-500/10">
-                  Usuário demo
-                </button>
-              </div>
-            </div>
-
             <div className="mt-6 text-center">
               <Link href="/" className="text-white/30 text-xs hover:text-white/60 transition-colors">← Voltar ao site</Link>
             </div>
