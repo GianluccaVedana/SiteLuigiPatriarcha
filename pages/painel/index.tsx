@@ -323,6 +323,29 @@ export default function PainelPage() {
                       </div>
                     )
                   })()}
+
+                  {/* PIX */}
+                  <div className="mt-5 pt-4 border-t border-gold-500/15">
+                    <p className="text-xs font-bold text-white/50 uppercase tracking-wider mb-3 text-center">Pagamento via PIX</p>
+                    <div className="flex flex-col items-center gap-3">
+                      <img
+                        src="/pix-qrcode.png"
+                        alt="QR Code PIX"
+                        className="w-40 h-40 rounded-xl object-contain bg-white p-2"
+                      />
+                      <div className="w-full bg-navy-800/60 rounded-xl px-3 py-2.5 border border-gold-500/10">
+                        <p className="text-white/40 text-xs text-center mb-1">Chave PIX</p>
+                        <button
+                          onClick={() => navigator.clipboard.writeText('financeiro@gremioindustrial.com.br')}
+                          className="w-full text-gold-400 font-semibold text-xs text-center hover:text-gold-300 transition-colors break-all"
+                          title="Clique para copiar"
+                        >
+                          financeiro@gremioindustrial.com.br
+                        </button>
+                        <p className="text-white/20 text-xs text-center mt-1">clique para copiar</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </AnimatedSection>
             )}
