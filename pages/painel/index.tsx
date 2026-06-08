@@ -7,7 +7,7 @@ import AnimatedSection from '@/components/ui/AnimatedSection'
 import Badge from '@/components/ui/Badge'
 import { useAuth } from '@/hooks/useAuth'
 import { CATEGORIES } from '@/data/mock'
-import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check, Loader2 } from 'lucide-react'
+import { User, Users, AlertCircle, CheckCircle2, Clock, LogOut, Plus, MapPin, Pencil, Trash2, X, Check, Loader2, DollarSign, Receipt } from 'lucide-react'
 
 interface Player { name: string; rg: string; birthDate: string }
 
@@ -250,7 +250,7 @@ export default function PainelPage() {
             )}
           </div>
 
-          {/* Sidebar — Perfil */}
+          {/* Sidebar — Perfil + Preços + Total */}
           <div className="space-y-4">
             <AnimatedSection direction="right">
               <div className="glass-card rounded-2xl p-5 border border-gold-500/15">
@@ -264,6 +264,68 @@ export default function PainelPage() {
                 </div>
               </div>
             </AnimatedSection>
+
+            <AnimatedSection direction="right" delay={80}>
+              <div className="glass-card rounded-2xl p-5 border border-gold-500/15">
+                <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <DollarSign size={14} />Tabela de Preços
+                </h3>
+                <div className="space-y-2">
+                  {[
+                    { qty: '1 equipe', price: 'R$ 400,00', unit: '' },
+                    { qty: '2 equipes', price: 'R$ 380,00', unit: 'por equipe' },
+                    { qty: '3+ equipes', price: 'R$ 350,00', unit: 'por equipe' },
+                  ].map((row, i) => (
+                    <div key={i} className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-sm ${
+                      (teams.length === 1 && i === 0) ||
+                      (teams.length === 2 && i === 1) ||
+                      (teams.length >= 3 && i === 2)
+                        ? 'bg-gold-500/10 border border-gold-500/30'
+                        : 'bg-navy-800/40 border border-transparent'
+                    }`}>
+                      <span className="text-white/60 text-xs">{row.qty}</span>
+                      <div className="text-right">
+                        <span className="text-gold-400 font-bold">{row.price}</span>
+                        {row.unit && <span className="text-white/30 text-xs ml-1">{row.unit}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {teams.length > 0 && (
+              <AnimatedSection direction="right" delay={160}>
+                <div className="glass-card rounded-2xl p-5 border border-gold-500/20">
+                  <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <Receipt size={14} />Total a Pagar
+                  </h3>
+                  {(() => {
+                    const n = teams.length
+                    const unitPrice = n === 1 ? 400 : n === 2 ? 380 : 350
+                    const total = n * unitPrice
+                    return (
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-white/40">Equipes inscritas</span>
+                          <span className="text-white">{n}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-white/40">Valor por equipe</span>
+                          <span className="text-white">R$ {unitPrice.toLocaleString('pt-BR')},00</span>
+                        </div>
+                        <div className="border-t border-gold-500/15 pt-2 mt-2 flex justify-between items-center">
+                          <span className="text-white font-bold">Total</span>
+                          <span className="text-gold-400 font-black text-lg">
+                            R$ {total.toLocaleString('pt-BR')},00
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })()}
+                </div>
+              </AnimatedSection>
+            )}
           </div>
         </div>
       </div>
